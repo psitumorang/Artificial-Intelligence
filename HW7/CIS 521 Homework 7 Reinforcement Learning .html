@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIS 521 Homework 7 "Reinforcement Learning"</title>
+
+    <!-- Mathjax -->
+    <script type="text/x-mathjax-config;executed=true">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          processEscapes: true
+        }
+      });
+    </script>
+    <script src="CIS%20521%20Homework%207%20Reinforcement%20Learning%20_files/MathJax.js" id="">
+    </script>
+    <script type="text/javascript" charset="utf-8" src="CIS%20521%20Homework%207%20Reinforcement%20Learning%20_files/MathJaxLocal.js">
+    </script>
+
+    <!-- CSS -->
+    <link href="CIS%20521%20Homework%207%20Reinforcement%20Learning%20_files/bootstrap.min.css" rel="stylesheet">
+
+    <link href="CIS%20521%20Homework%207%20Reinforcement%20Learning%20_files/syntax.css" rel="stylesheet">
+
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+<style>
+/* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
+.flip-card {
+  background-color: transparent;
+  width: 300px;
+  height: 200px;
+  border: 1px solid #f1f1f1;
+  perspective: 1000px; /* Remove this if you don't want the 3D effect */
+}
+
+/* This container is needed to position the front and back side */
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
+}
+
+/* Style the front side (fallback if image is missing) */
+.flip-card-front {
+  background-color: #bbb;
+  color: black;
+}
+
+/* Style the back side */
+.flip-card-back {
+  background-color: dodgerblue;
+  color: white;
+  transform: rotateY(180deg);
+}
+</style>
+  <style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1px; bottom: 2px; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style><style type="text/css">.MathJax_Display {text-align: center; margin: 1em 0em; position: relative; display: block!important; text-indent: 0; max-width: none; max-height: none; min-width: 0; min-height: 0; width: 100%}
+.MathJax .merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MathJax .MJX-monospace {font-family: monospace}
+.MathJax .MJX-sans-serif {font-family: sans-serif}
+#MathJax_Tooltip {background-color: InfoBackground; color: InfoText; border: 1px solid black; box-shadow: 2px 2px 5px #AAAAAA; -webkit-box-shadow: 2px 2px 5px #AAAAAA; -moz-box-shadow: 2px 2px 5px #AAAAAA; -khtml-box-shadow: 2px 2px 5px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true'); padding: 3px 4px; z-index: 401; position: absolute; left: 0; top: 0; width: auto; height: auto; display: none}
+.MathJax {display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 100%; font-size-adjust: none; text-indent: 0; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0; min-height: 0; border: 0; padding: 0; margin: 0}
+.MathJax:focus, body :focus .MathJax {display: inline-table}
+.MathJax.MathJax_FullWidth {text-align: center; display: table-cell!important; width: 10000em!important}
+.MathJax img, .MathJax nobr, .MathJax a {border: 0; padding: 0; margin: 0; max-width: none; max-height: none; min-width: 0; min-height: 0; vertical-align: 0; line-height: normal; text-decoration: none}
+img.MathJax_strut {border: 0!important; padding: 0!important; margin: 0!important; vertical-align: 0!important}
+.MathJax span {display: inline; position: static; border: 0; padding: 0; margin: 0; vertical-align: 0; line-height: normal; text-decoration: none}
+.MathJax nobr {white-space: nowrap!important}
+.MathJax img {display: inline!important; float: none!important}
+.MathJax * {transition: none; -webkit-transition: none; -moz-transition: none; -ms-transition: none; -o-transition: none}
+.MathJax_Processing {visibility: hidden; position: fixed; width: 0; height: 0; overflow: hidden}
+.MathJax_Processed {display: none!important}
+.MathJax_ExBox {display: block!important; overflow: hidden; width: 1px; height: 60ex; min-height: 0; max-height: none}
+.MathJax .MathJax_EmBox {display: block!important; overflow: hidden; width: 1px; height: 60em; min-height: 0; max-height: none}
+.MathJax_LineBox {display: table!important}
+.MathJax_LineBox span {display: table-cell!important; width: 10000em!important; min-width: 0; max-width: none; padding: 0; border: 0; margin: 0}
+.MathJax .MathJax_HitBox {cursor: text; background: white; opacity: 0; filter: alpha(opacity=0)}
+.MathJax .MathJax_HitBox * {filter: none; opacity: 1; background: transparent}
+#MathJax_Tooltip * {filter: none; opacity: 1; background: transparent}
+@font-face {font-family: MathJax_Main; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/woff/MathJax_Main-Regular.woff?V=2.7.1') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/otf/MathJax_Main-Regular.otf?V=2.7.1') format('opentype')}
+@font-face {font-family: MathJax_Main; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/woff/MathJax_Main-Bold.woff?V=2.7.1') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/otf/MathJax_Main-Bold.otf?V=2.7.1') format('opentype'); font-weight: bold}
+@font-face {font-family: MathJax_Main; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/woff/MathJax_Main-Italic.woff?V=2.7.1') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/otf/MathJax_Main-Italic.otf?V=2.7.1') format('opentype'); font-style: italic}
+@font-face {font-family: MathJax_Math; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/woff/MathJax_Math-Italic.woff?V=2.7.1') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/otf/MathJax_Math-Italic.otf?V=2.7.1') format('opentype'); font-style: italic}
+@font-face {font-family: MathJax_Caligraphic; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/woff/MathJax_Caligraphic-Regular.woff?V=2.7.1') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/otf/MathJax_Caligraphic-Regular.otf?V=2.7.1') format('opentype')}
+@font-face {font-family: MathJax_Size1; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/woff/MathJax_Size1-Regular.woff?V=2.7.1') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/otf/MathJax_Size1-Regular.otf?V=2.7.1') format('opentype')}
+@font-face {font-family: MathJax_Size2; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/woff/MathJax_Size2-Regular.woff?V=2.7.1') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/otf/MathJax_Size2-Regular.otf?V=2.7.1') format('opentype')}
+@font-face {font-family: MathJax_Size3; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/woff/MathJax_Size3-Regular.woff?V=2.7.1') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/otf/MathJax_Size3-Regular.otf?V=2.7.1') format('opentype')}
+@font-face {font-family: MathJax_Size4; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/woff/MathJax_Size4-Regular.woff?V=2.7.1') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/otf/MathJax_Size4-Regular.otf?V=2.7.1') format('opentype')}
+.MathJax .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style><style type="text/css">@font-face {font-family: MathJax_AMS; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/woff/MathJax_AMS-Regular.woff?V=2.7.1') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/otf/MathJax_AMS-Regular.otf?V=2.7.1') format('opentype')}
+</style></head>
+<body><div style="visibility: hidden; overflow: hidden; position: absolute; top: 0px; height: 1px; width: auto; padding: 0px; border: 0px none; margin: 0px; text-align: left; text-indent: 0px; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal;"><div id="MathJax_Hidden"></div></div><div id="MathJax_Message" style="display: none;"></div>
+    <a class="sr-only" href="#content">Skip to main content</a>
+
+    <!-- Docs master nav -->
+    <header class="navbar navbar-static-top navbar-default" role="banner">
+      <div class="container">
+        <div class="row">
+        <div class="navbar-header">
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <ul class="nav navbar-nav">
+            <div class="hidden-sm hidden-xs"><li id="main-page"><a href="https://artificial-intelligence-class.org/index.html" class="navbar-brand">CIS 521 - Artificial Intelligence</a></li></div>
+            <div class="visible-sm visible-xs"><li id="main-page"><a href="https://artificial-intelligence-class.org/index.html" class="navbar-brand">CIS 521</a></li></div>
+          </ul>
+        </div>
+        <nav class="collapse navbar-collapse" role="navigation">
+          <ul class="nav navbar-nav">
+            <li id="homework" class="active">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">Homework<span class="caret"></span></a>
+              <ol class="dropdown-menu">
+                <li><a href="https://artificial-intelligence-class.org/homeworks/python-skills/python-skills.html">HW1: Python Skills</a></li>
+                <li><a href="https://artificial-intelligence-class.org/homeworks/uninformed-search/uninformed-search.html">HW2: Uninformed Search</a></li>
+                <!--
+                <li><a href="/homeworks/python-skills/python-skills.html">HW1: Python Skills</a></li>
+                <li><a href="/homeworks/uninformed-search/uninformed-search.html">HW2: Uninformed Search</a></li>
+                -->
+                <li><a href="https://artificial-intelligence-class.org/homeworks/informed-search/informed-search.html">HW3: Informed Search</a>
+                </li><li><a href="https://artificial-intelligence-class.org/homeworks/adversarial-search/adversarial-search.html">HW4: Games and Adversarial Search</a>
+                </li><li><a href="https://artificial-intelligence-class.org/homeworks/sudoku/sudoku.html">HW5: Sudoku</a>
+                </li><li><a href="https://artificial-intelligence-class.org/homeworks/markov-decision-processes/markov-decision-processes.html">HW6: MDPs and Gridworld </a></li>
+                <li><a href="https://artificial-intelligence-class.org/homeworks/reinforcement-learning/reinforcement-learning.html">HW7: Reinforcement Learning</a></li>
+                <li><a href="https://artificial-intelligence-class.org/homeworks/language-models/language-models.html">HW8: Language Models</a></li>
+                <li><a href="https://artificial-intelligence-class.org/homeworks/perceptrons/perceptrons.html">HW9: Perceptrons</a></li>
+                <li><a href="https://artificial-intelligence-class.org/homeworks/large-LMs/large-LMs.html">HW10: Large Language Models</a></li> 
+                <li><a href="https://artificial-intelligence-class.org/r2d2_assignments/22fall/hw0/hw0.html">EC0: Use Python to Control R2D2</a></li>
+                <li><a href="https://artificial-intelligence-class.org/r2d2_assignments/22fall/hw1/hw1.html">EC1: R2D2 as an Intelligent Agent</a></li>
+                <li><a href="https://artificial-intelligence-class.org/r2d2_assignments/22fall/hw2/hw2.html">EC2: Robot Navigation</a></li>
+
+<!--                
+                <li><a href="/r2d2_assignments/20fall/hw0/hw0.html">EC0: Use Python to Control R2D2</a></li>
+                <li><a href="/r2d2_assignments/20fall/hw0/sensor-pack-setup.html">EC0: R2D2 Sensor Pack Setup Instructions</a></li>
+                <li><a href="/r2d2_assignments/20fall/hw1/hw1.html">EC1: R2D2 as an Intelligent Agent</a></li>
+                <li><a href="/r2d2_assignments/20fall/hw2/hw2.html">EC2: Robot Navigation</a></li>
+                
+                <li><a href="/r2d2_assignments/20fall/hw3/hw3.html">EC3: R2-D2 Battle</a></li>
+                <li><a href="/r2d2_assignments/20fall/hw4/hw4.html">EC4: R2-D2 Face & Mask Detector </a></li>
+                <li><a href="/r2d2_assignments/20fall/hw5/hw5.html">EC5: R2-D2 Intent Detection </a></li>
+!-->
+              </ol>
+            </li><li id="lectures"><a href="https://artificial-intelligence-class.org/schedule.html#now">Schedule</a></li>
+            <li id="recordings"><a href="https://artificial-intelligence-class.org/modules.html#now">Recordings</a></li>
+            <li id="staff"><a href="https://artificial-intelligence-class.org/staff.html">Staff</a></li>
+          </ul>
+        </nav>
+      </div>
+      </div>
+    </header>
+
+    <div class="container">
+      
+      <div class="row">
+        <div class="col-sm-2 hidden-sm hidden-xs">
+          <a href="https://xkcd.co0/272/"> 
+          <img src="CIS%20521%20Homework%207%20Reinforcement%20Learning%20_files/the_difference.png" class="img-responsive img-rounded" alt="">
+          </a> 
+          <span class="text-muted"><i>I was just updating my q–state values.</i></span>
+
+        </div>
+
+        <div class="col-sm-10">
+          <!-- Check whether the assignment is ready to release -->
+
+<!-- End of check whether the assignment is up to date -->
+
+<!-- Check whether the assignment is up to date -->
+
+<!-- End of check whether the assignment is up to date -->
+
+<div class="alert alert-info">
+This assignment is due on Wednesday, November 9, 2022 before 11:59PM. 
+</div>
+
+<div class="alert alert-info">
+You can download the materials for this assignment here:
+<ul>
+
+<li><a href="https://artificial-intelligence-class.org/homeworks/reinforcement-learning/skeleton/agents.py">agents skeleton</a></li>
+
+<li><a href="https://artificial-intelligence-class.org/homeworks/reinforcement-learning/skeleton/gridworld.py">Gridworld game and GUI</a></li>
+
+<li><a href="https://artificial-intelligence-class.org/homeworks/reinforcement-learning/skeleton/pacman.py">Pacman game and GUI</a></li>
+
+</ul>
+</div>
+
+<h1 id="homework-7-reinforcement-learning-100-points">Homework 7: Reinforcement learning [100 points]</h1>
+
+<h2 id="instructions">Instructions</h2>
+<p>In the last homework, you have implemented value iteration agent, 
+which does not actually learn from experience. Rather, it ponders its 
+MDP model to arrive at a complete policy before ever interacting with a 
+real environment. When it does interact with the environment, it simply 
+follows the precomputed policy (e.g. it becomes a reflex agent). This 
+distinction may be subtle in a simulated environment like a Gridword, 
+but it’s very important in the real world, where the real MDP is not 
+available.</p>
+
+<p>In this homework, You will write a Q-learning agent, which does very 
+little on construction, but instead learns by trial and error from 
+interactions with the environment through its <code class="language-plaintext highlighter-rouge">update(state, action, next_state, reward)</code>
+ method. Then, you will implement an Approximate Q-leaning agent, which 
+does feature extraction and act upon the weights of the features.</p>
+
+<p>A skeleton file <a href="https://artificial-intelligence-class.org/homeworks/reinforcement-learning/skeleton/agents.py"><code class="language-plaintext highlighter-rouge">agents.py</code></a> containing empty definitions for both agents is provided. You need to download <a href="https://artificial-intelligence-class.org/homeworks/reinforcement-learning/skeleton/gridworld.py"><code class="language-plaintext highlighter-rouge">gridworld.py</code></a>, which includes a <code class="language-plaintext highlighter-rouge">Gridworld</code>
+ game and its GUI. Note that this Gridworld is not the same as the one 
+in MDP, so make sure you redownload this file as well. You also need to 
+download <a href="https://artificial-intelligence-class.org/homeworks/reinforcement-learning/skeleton/pacman.py"><code class="language-plaintext highlighter-rouge">pacman.py</code></a>, which includes a Pacman game and its GUI.</p>
+
+<p>Your code will be autograded for technical correctness. Please <strong><em>do not</em></strong>
+ change the names of any stub functions or classes within the code, or 
+delete any functions we asked you to implement. You can add helper 
+functions if needed.</p>
+
+<p>Once you have completed the assignment, you should submit your file on <a href="https://www.gradescope.com/courses/305169">Gradescope</a>. You may submit as many times as you would like before the deadline, but only the last submission will be saved.</p>
+
+<h2 id="1-q-learning-35-points">1. Q-Learning [35 Points]</h2>
+
+<p>This time, although the Gridworld looks similar, it is not an MDP anymore. That means, the only information you get from the <code class="language-plaintext highlighter-rouge">game</code> object is <code class="language-plaintext highlighter-rouge">game.get_actions(state: State)</code>, which returns a set of <code class="language-plaintext highlighter-rouge">Action</code>s. All other methods have been removed.</p>
+
+<p>You will also see that the GUI adds a new <code class="language-plaintext highlighter-rouge">episode</code> label. Each iteration is a single <code class="language-plaintext highlighter-rouge">update</code>, and each <code class="language-plaintext highlighter-rouge">episode</code>
+ is a collections of iterations such that the agent starts from the 
+starting state at the beginning of an episode and reaches a terminal 
+state at the end of an episode.</p>
+
+<p>A stub of a Q-learner is specified in <code class="language-plaintext highlighter-rouge">QLearningAgent</code>. A <code class="language-plaintext highlighter-rouge">QLearningAgent</code> takes in</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">game</code>, an object to get a set of available actions for a state <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-1-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;s&lt;/mi&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-1" style="width: 0.598em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.476em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.641em, 1000.43em, 2.45em, -1000em); top: -2.262em; left: 0em;"><span class="mrow" id="MathJax-Span-2"><span class="mi" id="MathJax-Span-3" style="font-family: MathJax_Math; font-style: italic;">s</span></span><span style="display: inline-block; width: 0px; height: 2.262em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.083em; border-left: 0px solid; width: 0px; height: 0.685em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>s</mi></math></span></span><script type="math/tex" id="MathJax-Element-1">s</script>.</li>
+  <li><code class="language-plaintext highlighter-rouge">discount</code>, the discount factor <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-2-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;&amp;#x03B3;&lt;/mi&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-4" style="width: 0.658em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.536em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.642em, 1000.54em, 2.656em, -1000em); top: -2.262em; left: 0em;"><span class="mrow" id="MathJax-Span-5"><span class="mi" id="MathJax-Span-6" style="font-family: MathJax_Math; font-style: italic;">γ<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.025em;"></span></span></span><span style="display: inline-block; width: 0px; height: 2.262em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.331em; border-left: 0px solid; width: 0px; height: 0.931em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>γ</mi></math></span></span><script type="math/tex" id="MathJax-Element-2">\gamma</script>.</li>
+  <li><code class="language-plaintext highlighter-rouge">learning_rate</code>, the learning rate <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-3-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;&amp;#x03B1;&lt;/mi&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-7" style="width: 0.836em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.655em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.641em, 1000.62em, 2.451em, -1000em); top: -2.262em; left: 0em;"><span class="mrow" id="MathJax-Span-8"><span class="mi" id="MathJax-Span-9" style="font-family: MathJax_Math; font-style: italic;">α</span></span><span style="display: inline-block; width: 0px; height: 2.262em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.085em; border-left: 0px solid; width: 0px; height: 0.686em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>α</mi></math></span></span><script type="math/tex" id="MathJax-Element-3">\alpha</script>.</li>
+  <li><code class="language-plaintext highlighter-rouge">explore_prob</code>, the probability of exploration <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-4-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;&amp;#x03F5;&lt;/mi&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-10" style="width: 0.539em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.417em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.652em, 1000.39em, 2.451em, -1000em); top: -2.262em; left: 0em;"><span class="mrow" id="MathJax-Span-11"><span class="mi" id="MathJax-Span-12" style="font-family: MathJax_Math; font-style: italic;">ϵ</span></span><span style="display: inline-block; width: 0px; height: 2.262em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.085em; border-left: 0px solid; width: 0px; height: 0.673em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>ϵ</mi></math></span></span><script type="math/tex" id="MathJax-Element-4">\epsilon</script> for each iteration.</li>
+</ul>
+
+<p>Note that the states in Gridworld aren’t given as well. Your code 
+should be able to deal with a new state and a new (state, action) pair.</p>
+
+<p>Then you need to implement the following methods for this part:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">agent.get_q_value(state, action)</code> returns the Q-value for (<code class="language-plaintext highlighter-rouge">state</code>, <code class="language-plaintext highlighter-rouge">action</code>) pair. <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-5-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;Q&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;s&lt;/mi&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-13" style="width: 3.693em; display: inline-block;"><span style="display: inline-block; position: relative; width: 3.036em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.333em, 1002.94em, 2.69em, -1000em); top: -2.262em; left: 0em;"><span class="mrow" id="MathJax-Span-14"><span class="mi" id="MathJax-Span-15" style="font-family: MathJax_Math; font-style: italic;">Q</span><span class="mo" id="MathJax-Span-16" style="font-family: MathJax_Main;">(</span><span class="mi" id="MathJax-Span-17" style="font-family: MathJax_Math; font-style: italic;">s</span><span class="mo" id="MathJax-Span-18" style="font-family: MathJax_Main;">,</span><span class="mi" id="MathJax-Span-19" style="font-family: MathJax_Math; font-style: italic; padding-left: 0.167em;">a</span><span class="mo" id="MathJax-Span-20" style="font-family: MathJax_Main;">)</span></span><span style="display: inline-block; width: 0px; height: 2.262em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.371em; border-left: 0px solid; width: 0px; height: 1.343em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>Q</mi><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>a</mi><mo stretchy="false">)</mo></math></span></span><script type="math/tex" id="MathJax-Element-5">Q(s, a)</script> from Q-table. For a never seen pair, the Q-value should be <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-6-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mn&gt;0&lt;/mn&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-21" style="width: 0.598em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.476em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.358em, 1000.44em, 2.403em, -1000em); top: -2.202em; left: 0em;"><span class="mrow" id="MathJax-Span-22"><span class="mn" id="MathJax-Span-23" style="font-family: MathJax_Main;">0</span></span><span style="display: inline-block; width: 0px; height: 2.202em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.098em; border-left: 0px solid; width: 0px; height: 0.968em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>0</mn></math></span></span><script type="math/tex" id="MathJax-Element-6">0</script>.</li>
+  <li><code class="language-plaintext highlighter-rouge">agent.get_value(state)</code> returns the value of the <code class="language-plaintext highlighter-rouge">state</code> <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-7-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;V&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;s&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-24" style="width: 2.443em; display: inline-block;"><span style="display: inline-block; position: relative; width: 2.024em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.333em, 1001.93em, 2.69em, -1000em); top: -2.262em; left: 0em;"><span class="mrow" id="MathJax-Span-25"><span class="mi" id="MathJax-Span-26" style="font-family: MathJax_Math; font-style: italic; text-rendering: optimizelegibility;">V<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.186em;"></span></span><span class="mo" id="MathJax-Span-27" style="font-family: MathJax_Main;">(</span><span class="mi" id="MathJax-Span-28" style="font-family: MathJax_Math; font-style: italic;">s</span><span class="mo" id="MathJax-Span-29" style="font-family: MathJax_Main;">)</span></span><span style="display: inline-block; width: 0px; height: 2.262em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.371em; border-left: 0px solid; width: 0px; height: 1.343em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>V</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo></math></span></span><script type="math/tex" id="MathJax-Element-7">V(s)</script>.</li>
+  <li><code class="language-plaintext highlighter-rouge">agent.get_best_policy(state)</code> returns the best policy of the <code class="language-plaintext highlighter-rouge">state</code>, <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-8-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;&amp;#x03C0;&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;s&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-30" style="width: 2.265em; display: inline-block;"><span style="display: inline-block; position: relative; width: 1.845em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.333em, 1001.75em, 2.69em, -1000em); top: -2.262em; left: 0em;"><span class="mrow" id="MathJax-Span-31"><span class="mi" id="MathJax-Span-32" style="font-family: MathJax_Math; font-style: italic;">π<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.003em;"></span></span><span class="mo" id="MathJax-Span-33" style="font-family: MathJax_Main;">(</span><span class="mi" id="MathJax-Span-34" style="font-family: MathJax_Math; font-style: italic;">s</span><span class="mo" id="MathJax-Span-35" style="font-family: MathJax_Main;">)</span></span><span style="display: inline-block; width: 0px; height: 2.262em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.371em; border-left: 0px solid; width: 0px; height: 1.343em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>π</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo></math></span></span><script type="math/tex" id="MathJax-Element-8">\pi(s)</script>.</li>
+  <li><code class="language-plaintext highlighter-rouge">agent.update(state, action, next_state, reward)</code> updates the Q-value for (<code class="language-plaintext highlighter-rouge">state</code>, <code class="language-plaintext highlighter-rouge">action</code>) pair, based on the value of the <code class="language-plaintext highlighter-rouge">next_state</code> and <code class="language-plaintext highlighter-rouge">reward</code> given.</li>
+</ul>
+
+<p>Note: For <code class="language-plaintext highlighter-rouge">get_best_policy</code>, you should break ties randomly for better behavior. The <code class="language-plaintext highlighter-rouge">random.choice()</code> function will help.</p>
+
+<p>For more instructions, refer to the lecture slides and comments in the skeleton file.</p>
+
+<p><strong>Important:</strong> Make sure that in your <code class="language-plaintext highlighter-rouge">get_value</code> and <code class="language-plaintext highlighter-rouge">get_best_policy</code> functions, you only access Q-values by calling <code class="language-plaintext highlighter-rouge">get_q_value</code>. This abstraction will be useful for the Approximate Q-learning you will implement later when you override <code class="language-plaintext highlighter-rouge">get_q_value</code> to use features of state-action pairs rather than state-action pairs directly.</p>
+
+<p>With the Q-learning update in place, you can watch your Q-learner learn under manual control, using the keyboard arrow keys:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python gridworld.py
+</code></pre></div></div>
+
+<p>Hint: to help with debugging, you can turn off noise by using the <code class="language-plaintext highlighter-rouge">--noise 0.0</code>
+ parameter in the command line (though this obviously makes Q-learning 
+less interesting). If you manually steer up and then right along the 
+optimal path for four episodes, you should see the following Q-values:</p>
+
+<center>
+<img src="CIS%20521%20Homework%207%20Reinforcement%20Learning%20_files/qlearning.png" alt="Q-values in Grid World" class="img-responsive" width="50%" height="50%">
+</center>
+
+<h2 id="2-epsilon-greedy-20-points">2. Epsilon Greedy [20 points]</h2>
+
+<p>Complete your Q-learning agent by implementing epsilon-greedy action selection in <code class="language-plaintext highlighter-rouge">agent.get_action(state)</code>, meaning it chooses random actions an <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-9-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;&amp;#x03F5;&lt;/mi&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-36" style="width: 0.539em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.417em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.652em, 1000.39em, 2.451em, -1000em); top: -2.262em; left: 0em;"><span class="mrow" id="MathJax-Span-37"><span class="mi" id="MathJax-Span-38" style="font-family: MathJax_Math; font-style: italic;">ϵ</span></span><span style="display: inline-block; width: 0px; height: 2.262em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.085em; border-left: 0px solid; width: 0px; height: 0.673em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>ϵ</mi></math></span></span><script type="math/tex" id="MathJax-Element-9">\epsilon</script>
+ fraction of the time, and follows its current best Q-values otherwise. 
+Note that choosing a random action may result in choosing the best 
+action - that is, you should not choose a random sub-optimal action, but
+ rather any random legal action.</p>
+
+<p>Your final Q-values should resemble those of your Value Iteration 
+Agent, especially along well-traveled paths. However, your average 
+returns will be lower than the Q-values predict because of the random 
+actions and the initial learning phase.</p>
+
+<p>You can choose an element from a list uniformly at random by calling the <code class="language-plaintext highlighter-rouge">random.choice</code> function. You can simulate a Bernoulli trial with probability <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-10-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;p&lt;/mi&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-39" style="width: 0.598em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.476em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.641em, 1000.47em, 2.634em, -1000em); top: -2.262em; left: 0em;"><span class="mrow" id="MathJax-Span-40"><span class="mi" id="MathJax-Span-41" style="font-family: MathJax_Math; font-style: italic;">p</span></span><span style="display: inline-block; width: 0px; height: 2.262em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.304em; border-left: 0px solid; width: 0px; height: 0.906em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>p</mi></math></span></span><script type="math/tex" id="MathJax-Element-10">p</script> of success by using <code class="language-plaintext highlighter-rouge">random.random() &lt; p</code>, which returns <code class="language-plaintext highlighter-rouge">True</code> with probability <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-11-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;p&lt;/mi&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-42" style="width: 0.598em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.476em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.641em, 1000.47em, 2.634em, -1000em); top: -2.262em; left: 0em;"><span class="mrow" id="MathJax-Span-43"><span class="mi" id="MathJax-Span-44" style="font-family: MathJax_Math; font-style: italic;">p</span></span><span style="display: inline-block; width: 0px; height: 2.262em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.304em; border-left: 0px solid; width: 0px; height: 0.906em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>p</mi></math></span></span><script type="math/tex" id="MathJax-Element-11">p</script> and <code class="language-plaintext highlighter-rouge">False</code> with probability <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-12-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;mi&gt;p&lt;/mi&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-45" style="width: 2.682em; display: inline-block;"><span style="display: inline-block; position: relative; width: 2.202em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.417em, 1002.2em, 2.634em, -1000em); top: -2.262em; left: 0em;"><span class="mrow" id="MathJax-Span-46"><span class="mn" id="MathJax-Span-47" style="font-family: MathJax_Main;">1</span><span class="mo" id="MathJax-Span-48" style="font-family: MathJax_Main; padding-left: 0.222em;">−</span><span class="mi" id="MathJax-Span-49" style="font-family: MathJax_Math; font-style: italic; padding-left: 0.222em;">p</span></span><span style="display: inline-block; width: 0px; height: 2.262em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.304em; border-left: 0px solid; width: 0px; height: 1.175em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>1</mn><mo>−</mo><mi>p</mi></math></span></span><script type="math/tex" id="MathJax-Element-12">1-p</script>.</p>
+
+<h2 id="3-bridge-crossing-revisited-10-points">3. Bridge Crossing Revisited [10 points]</h2>
+
+<p>First, train a completely random Q-learner with the default learning 
+rate on the noiseless BridgeGrid for 50 episodes and observe whether it 
+finds the optimal policy.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python gridworld.py --noise 0 bridge
+</code></pre></div></div>
+
+<p>Now try the same experiment with an epsilon of <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-13-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mn&gt;0&lt;/mn&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-50" style="width: 0.598em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.476em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.358em, 1000.44em, 2.403em, -1000em); top: -2.202em; left: 0em;"><span class="mrow" id="MathJax-Span-51"><span class="mn" id="MathJax-Span-52" style="font-family: MathJax_Main;">0</span></span><span style="display: inline-block; width: 0px; height: 2.202em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.098em; border-left: 0px solid; width: 0px; height: 0.968em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>0</mn></math></span></span><script type="math/tex" id="MathJax-Element-13">0</script> (adding <code class="language-plaintext highlighter-rouge">--epsilon 0</code>
+ to the command line). Is there an epsilon and a learning rate for which
+ it is highly likely (greater than 99%) that the optimal policy will be 
+learned after 50 iterations? <code class="language-plaintext highlighter-rouge">question3()</code> in <strong>agents.py</strong>
+ should return EITHER a 2-item tuple of (epsilon, learning rate) OR the 
+string ‘NOT POSSIBLE’ if there is none. Epsilon is controlled by <code class="language-plaintext highlighter-rouge">--epsilon</code>, learning rate by <code class="language-plaintext highlighter-rouge">--learning-rate</code>.</p>
+
+<p>Note: Your response should be not depend on the exact tie-breaking 
+mechanism used to choose actions. This means your answer should be 
+correct even if for instance we rotated the entire bridge grid world 90 
+degrees.</p>
+
+<h2 id="4-q-learning-and-pacman-10-points">4. Q-Learning and Pacman [10 points]</h2>
+
+<p>Time to play some Pacman! Pacman will play games in two phases. In 
+the first phase, training, Pacman will begin to learn about the values 
+of positions and actions. Because it takes a very long time to learn 
+accurate Q-values even for tiny grids, Pacman’s training games run in 
+quiet mode by default, with no GUI (or console) display. Once Pacman’s 
+training is complete, it will enter playing mode. When playing, Pacman 
+will use <code class="language-plaintext highlighter-rouge">get_best_policy</code> and not call <code class="language-plaintext highlighter-rouge">update</code>
+ method, effectively stopping Q-learning and disabling exploration, in 
+order to allow Pacman to exploit its learned policy. Playing games are 
+shown in the GUI. Without any code changes you should be able to run 
+Q-learning Pacman for very tiny grids as follows:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python pacman.py --train 2000 --play 10 small
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">Pacman</code> game
+ is only different in that it has default learning parameters that are 
+more effective for the Pacman problem (epsilon=0.05, alpha=0.2, 
+gamma=0.8). You will receive full credit for this question if the 
+command above works without exceptions and your agent wins at least 80% 
+of the time. The autograder will run 100 test games after the 2000 
+training games.</p>
+
+<p>Hint: If your <code class="language-plaintext highlighter-rouge">QLearningAgent</code> works for <strong>Gridworld</strong> but does not seem to be learning a good policy for Pacman on smallGrid, it may be because your <code class="language-plaintext highlighter-rouge">get_action</code> and/or <code class="language-plaintext highlighter-rouge">get_best_policy</code>
+ methods do not in some cases properly consider unseen actions. In 
+particular, because unseen actions have by definition a Q-value of zero,
+ if all of the actions that have been seen have negative Q-values, an 
+unseen action may be optimal!</p>
+
+<p>During training, you will see output every 100 games with statistics 
+about how Pacman is faring. Epsilon is positive during training, so 
+Pacman will play poorly even after having learned a good policy: this is
+ because it occasionally makes a random exploratory move into a ghost. 
+As a benchmark, it should take no more than 1,000 episodes before 
+Pacman’s rewards for a 100 episode segment becomes positive, reflecting 
+that it’s started winning more than losing. By the end of training, it 
+should remain positive and be fairly high (between 100 and 350).</p>
+
+<p>Once Pacman is done training, it should win very reliably in test 
+games (at least 90% of the time), since now it is exploiting its learned
+ policy.</p>
+
+<p>However, you will find that training the same agent on the seemingly simple mediumGrid does not work well:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python pacman.py --train 2000 --play 10 medium
+</code></pre></div></div>
+
+<p>In our implementation, Pacman’s average training rewards remain 
+negative throughout training. At test time, it plays badly, probably 
+losing all of its test games. Training will also take a long time, 
+despite its ineffectiveness.</p>
+
+<p>Pacman fails to win on larger layouts even if you increase the 
+training time because each board configuration is a separate state with 
+separate Q-values. It has no way to generalize that running into a ghost
+ is bad for all positions. Obviously, this approach will not scale.</p>
+
+<h2 id="5-approximate-q-learning-20-points">5. Approximate Q-Learning [20 points]</h2>
+
+<p>Implement an approximate Q-learning agent that learns weights for 
+features of states, where many states might share the same features. 
+Write your implementation in <code class="language-plaintext highlighter-rouge">ApproximateQAgent</code> class in <strong>agents.py</strong>, which is a subclass of <code class="language-plaintext highlighter-rouge">QLearningAgent</code>.</p>
+
+<p>Approximate Q-learning assumes the existence of a feature function <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-14-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;f&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;s&lt;/mi&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-53" style="width: 3.396em; display: inline-block;"><span style="display: inline-block; position: relative; width: 2.798em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.333em, 1002.7em, 2.69em, -1000em); top: -2.262em; left: 0em;"><span class="mrow" id="MathJax-Span-54"><span class="mi" id="MathJax-Span-55" style="font-family: MathJax_Math; font-style: italic;">f<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.06em;"></span></span><span class="mo" id="MathJax-Span-56" style="font-family: MathJax_Main;">(</span><span class="mi" id="MathJax-Span-57" style="font-family: MathJax_Math; font-style: italic;">s</span><span class="mo" id="MathJax-Span-58" style="font-family: MathJax_Main;">,</span><span class="mi" id="MathJax-Span-59" style="font-family: MathJax_Math; font-style: italic; padding-left: 0.167em;">a</span><span class="mo" id="MathJax-Span-60" style="font-family: MathJax_Main;">)</span></span><span style="display: inline-block; width: 0px; height: 2.262em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.371em; border-left: 0px solid; width: 0px; height: 1.343em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>f</mi><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>a</mi><mo stretchy="false">)</mo></math></span></span><script type="math/tex" id="MathJax-Element-14">f(s,a)</script> over state and action pairs, which yields a vector <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-15-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msub&gt;&lt;mi&gt;f&lt;/mi&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/msub&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;s&lt;/mi&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mo&gt;.&lt;/mo&gt;&lt;mo&gt;.&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;f&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/msub&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;s&lt;/mi&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mo&gt;.&lt;/mo&gt;&lt;mo&gt;.&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;f&lt;/mi&gt;&lt;mi&gt;n&lt;/mi&gt;&lt;/msub&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;s&lt;/mi&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-61" style="width: 13.396em; display: inline-block;"><span style="display: inline-block; position: relative; width: 11.131em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.333em, 1011.04em, 2.69em, -1000em); top: -2.262em; left: 0em;"><span class="mrow" id="MathJax-Span-62"><span class="msubsup" id="MathJax-Span-63"><span style="display: inline-block; position: relative; width: 0.919em; height: 0px;"><span style="position: absolute; clip: rect(3.105em, 1000.55em, 4.372em, -1000em); top: -3.988em; left: 0em;"><span class="mi" id="MathJax-Span-64" style="font-family: MathJax_Math; font-style: italic;">f<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.06em;"></span></span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span><span style="position: absolute; top: -3.838em; left: 0.49em;"><span class="mn" id="MathJax-Span-65" style="font-size: 70.7%; font-family: MathJax_Main;">1</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span></span></span><span class="mo" id="MathJax-Span-66" style="font-family: MathJax_Main;">(</span><span class="mi" id="MathJax-Span-67" style="font-family: MathJax_Math; font-style: italic;">s</span><span class="mo" id="MathJax-Span-68" style="font-family: MathJax_Main;">,</span><span class="mi" id="MathJax-Span-69" style="font-family: MathJax_Math; font-style: italic; padding-left: 0.167em;">a</span><span class="mo" id="MathJax-Span-70" style="font-family: MathJax_Main;">)</span><span class="mo" id="MathJax-Span-71" style="font-family: MathJax_Main;">.</span><span class="mo" id="MathJax-Span-72" style="font-family: MathJax_Main; padding-left: 0.167em;">.</span><span class="msubsup" id="MathJax-Span-73" style="padding-left: 0.167em;"><span style="display: inline-block; position: relative; width: 0.809em; height: 0px;"><span style="position: absolute; clip: rect(3.105em, 1000.55em, 4.372em, -1000em); top: -3.988em; left: 0em;"><span class="mi" id="MathJax-Span-74" style="font-family: MathJax_Math; font-style: italic;">f<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.06em;"></span></span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span><span style="position: absolute; top: -3.838em; left: 0.49em;"><span class="mi" id="MathJax-Span-75" style="font-size: 70.7%; font-family: MathJax_Math; font-style: italic;">i</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span></span></span><span class="mo" id="MathJax-Span-76" style="font-family: MathJax_Main;">(</span><span class="mi" id="MathJax-Span-77" style="font-family: MathJax_Math; font-style: italic;">s</span><span class="mo" id="MathJax-Span-78" style="font-family: MathJax_Main;">,</span><span class="mi" id="MathJax-Span-79" style="font-family: MathJax_Math; font-style: italic; padding-left: 0.167em;">a</span><span class="mo" id="MathJax-Span-80" style="font-family: MathJax_Main;">)</span><span class="mo" id="MathJax-Span-81" style="font-family: MathJax_Main;">.</span><span class="mo" id="MathJax-Span-82" style="font-family: MathJax_Main; padding-left: 0.167em;">.</span><span class="msubsup" id="MathJax-Span-83" style="padding-left: 0.167em;"><span style="display: inline-block; position: relative; width: 0.989em; height: 0px;"><span style="position: absolute; clip: rect(3.105em, 1000.55em, 4.372em, -1000em); top: -3.988em; left: 0em;"><span class="mi" id="MathJax-Span-84" style="font-family: MathJax_Math; font-style: italic;">f<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.06em;"></span></span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span><span style="position: absolute; top: -3.838em; left: 0.49em;"><span class="mi" id="MathJax-Span-85" style="font-size: 70.7%; font-family: MathJax_Math; font-style: italic;">n</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span></span></span><span class="mo" id="MathJax-Span-86" style="font-family: MathJax_Main;">(</span><span class="mi" id="MathJax-Span-87" style="font-family: MathJax_Math; font-style: italic;">s</span><span class="mo" id="MathJax-Span-88" style="font-family: MathJax_Main;">,</span><span class="mi" id="MathJax-Span-89" style="font-family: MathJax_Math; font-style: italic; padding-left: 0.167em;">a</span><span class="mo" id="MathJax-Span-90" style="font-family: MathJax_Main;">)</span></span><span style="display: inline-block; width: 0px; height: 2.262em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.371em; border-left: 0px solid; width: 0px; height: 1.343em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>f</mi><mn>1</mn></msub><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>a</mi><mo stretchy="false">)</mo><mo>.</mo><mo>.</mo><msub><mi>f</mi><mi>i</mi></msub><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>a</mi><mo stretchy="false">)</mo><mo>.</mo><mo>.</mo><msub><mi>f</mi><mi>n</mi></msub><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>a</mi><mo stretchy="false">)</mo></math></span></span><script type="math/tex" id="MathJax-Element-15">f_1(s,a) .. f_i(s,a) .. f_n(s,a)</script> of feature values. We provide feature functions for you already during the initialization of <code class="language-plaintext highlighter-rouge">ApproximateQAgent</code>. To use the <code class="language-plaintext highlighter-rouge">extractor</code>, take it as a function that accepts two arguments <code class="language-plaintext highlighter-rouge">state</code> and <code class="language-plaintext highlighter-rouge">action</code>, and it returns a dictionary that maps features to their values, i.e. <code class="language-plaintext highlighter-rouge">extractor(state: State, action: Action) -&gt; Map[Feature, float]</code>. A <code class="language-plaintext highlighter-rouge">Feature</code> is guaranteed hashable.</p>
+
+<p>Note: Again you can use <code class="language-plaintext highlighter-rouge">.items()</code> on a dictionary to get a list of <code class="language-plaintext highlighter-rouge">(k, v)</code> pairs.</p>
+
+<p>The approximate Q-function takes the following form</p>
+
+<span class="MathJax_Preview" style="color: inherit; display: none;"></span><div class="MathJax_Display" style="text-align: center;"><span class="MathJax" id="MathJax-Element-16-Frame" tabindex="0" style="text-align: center; position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot; display=&quot;block&quot;&gt;&lt;mi&gt;Q&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;s&lt;/mi&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;munderover&gt;&lt;mo&gt;&amp;#x2211;&lt;/mo&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/mrow&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mi&gt;n&lt;/mi&gt;&lt;/mrow&gt;&lt;/munderover&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;msub&gt;&lt;mi&gt;f&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/msub&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;s&lt;/mi&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;w&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/msub&gt;&lt;/mrow&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-91" style="width: 12.027em; display: inline-block;"><span style="display: inline-block; position: relative; width: 10em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(0.521em, 1010em, 3.636em, -1000em); top: -2.262em; left: 0em;"><span class="mrow" id="MathJax-Span-92"><span class="mi" id="MathJax-Span-93" style="font-family: MathJax_Math; font-style: italic;">Q</span><span class="mo" id="MathJax-Span-94" style="font-family: MathJax_Main;">(</span><span class="mi" id="MathJax-Span-95" style="font-family: MathJax_Math; font-style: italic;">s</span><span class="mo" id="MathJax-Span-96" style="font-family: MathJax_Main;">,</span><span class="mi" id="MathJax-Span-97" style="font-family: MathJax_Math; font-style: italic; padding-left: 0.167em;">a</span><span class="mo" id="MathJax-Span-98" style="font-family: MathJax_Main;">)</span><span class="mo" id="MathJax-Span-99" style="font-family: MathJax_Main; padding-left: 0.278em;">=</span><span class="munderover" id="MathJax-Span-100" style="padding-left: 0.278em;"><span style="display: inline-block; position: relative; width: 1.444em; height: 0px;"><span style="position: absolute; clip: rect(2.86em, 1001.39em, 4.617em, -1000em); top: -3.988em; left: 0em;"><span class="mo" id="MathJax-Span-101" style="font-family: MathJax_Size2; vertical-align: 0em;">∑</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span><span style="position: absolute; clip: rect(3.339em, 1001.1em, 4.274em, -1000em); top: -2.9em; left: 0.148em;"><span class="texatom" id="MathJax-Span-102"><span class="mrow" id="MathJax-Span-103"><span class="mi" id="MathJax-Span-104" style="font-size: 70.7%; font-family: MathJax_Math; font-style: italic;">i</span><span class="mo" id="MathJax-Span-105" style="font-size: 70.7%; font-family: MathJax_Main;">=</span><span class="mn" id="MathJax-Span-106" style="font-size: 70.7%; font-family: MathJax_Main;">1</span></span></span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span><span style="position: absolute; clip: rect(3.397em, 1000.41em, 4.174em, -1000em); top: -5.138em; left: 0.51em;"><span class="texatom" id="MathJax-Span-107"><span class="mrow" id="MathJax-Span-108"><span class="mi" id="MathJax-Span-109" style="font-size: 70.7%; font-family: MathJax_Math; font-style: italic;">n</span></span></span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span></span></span><span class="texatom" id="MathJax-Span-110" style="padding-left: 0.167em;"><span class="mrow" id="MathJax-Span-111"><span class="msubsup" id="MathJax-Span-112"><span style="display: inline-block; position: relative; width: 0.809em; height: 0px;"><span style="position: absolute; clip: rect(3.105em, 1000.55em, 4.372em, -1000em); top: -3.988em; left: 0em;"><span class="mi" id="MathJax-Span-113" style="font-family: MathJax_Math; font-style: italic;">f<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.06em;"></span></span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span><span style="position: absolute; top: -3.838em; left: 0.49em;"><span class="mi" id="MathJax-Span-114" style="font-size: 70.7%; font-family: MathJax_Math; font-style: italic;">i</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span></span></span><span class="mo" id="MathJax-Span-115" style="font-family: MathJax_Main;">(</span><span class="mi" id="MathJax-Span-116" style="font-family: MathJax_Math; font-style: italic;">s</span><span class="mo" id="MathJax-Span-117" style="font-family: MathJax_Main;">,</span><span class="mi" id="MathJax-Span-118" style="font-family: MathJax_Math; font-style: italic; padding-left: 0.167em;">a</span><span class="mo" id="MathJax-Span-119" style="font-family: MathJax_Main;">)</span><span class="msubsup" id="MathJax-Span-120"><span style="display: inline-block; position: relative; width: 1.035em; height: 0px;"><span style="position: absolute; clip: rect(3.367em, 1000.69em, 4.178em, -1000em); top: -3.988em; left: 0em;"><span class="mi" id="MathJax-Span-121" style="font-family: MathJax_Math; font-style: italic;">w</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span><span style="position: absolute; top: -3.838em; left: 0.716em;"><span class="mi" id="MathJax-Span-122" style="font-size: 70.7%; font-family: MathJax_Math; font-style: italic;">i</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span></span></span></span></span></span><span style="display: inline-block; width: 0px; height: 2.262em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -1.506em; border-left: 0px solid; width: 0px; height: 3.452em;"></span></span></nobr><span class="MJX_Assistive_MathML MJX_Assistive_MathML_Block" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi>Q</mi><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>a</mi><mo stretchy="false">)</mo><mo>=</mo><munderover><mo>∑</mo><mrow class="MJX-TeXAtom-ORD"><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mrow class="MJX-TeXAtom-ORD"><mi>n</mi></mrow></munderover><mrow class="MJX-TeXAtom-ORD"><msub><mi>f</mi><mi>i</mi></msub><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>a</mi><mo stretchy="false">)</mo><msub><mi>w</mi><mi>i</mi></msub></mrow></math></span></span></div><script type="math/tex; mode=display" id="MathJax-Element-16">Q(s,a)=\sum_{i=1}^{n}{f_i(s,a)w_i}</script>
+
+<p>where each weight <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-17-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msub&gt;&lt;mi&gt;w&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/msub&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-123" style="width: 1.253em; display: inline-block;"><span style="display: inline-block; position: relative; width: 1.012em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.521em, 1001.01em, 2.479em, -1000em); top: -2.143em; left: 0em;"><span class="mrow" id="MathJax-Span-124"><span class="msubsup" id="MathJax-Span-125"><span style="display: inline-block; position: relative; width: 1.035em; height: 0px;"><span style="position: absolute; clip: rect(3.367em, 1000.69em, 4.178em, -1000em); top: -3.988em; left: 0em;"><span class="mi" id="MathJax-Span-126" style="font-family: MathJax_Math; font-style: italic;">w</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span><span style="position: absolute; top: -3.838em; left: 0.716em;"><span class="mi" id="MathJax-Span-127" style="font-size: 70.7%; font-family: MathJax_Math; font-style: italic;">i</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span></span></span></span><span style="display: inline-block; width: 0px; height: 2.143em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.261em; border-left: 0px solid; width: 0px; height: 0.864em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>w</mi><mi>i</mi></msub></math></span></span><script type="math/tex" id="MathJax-Element-17">w_i</script> is associated with a particular feature <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-18-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msub&gt;&lt;mi&gt;f&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/msub&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;s&lt;/mi&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-128" style="width: 3.693em; display: inline-block;"><span style="display: inline-block; position: relative; width: 3.036em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.333em, 1002.94em, 2.69em, -1000em); top: -2.262em; left: 0em;"><span class="mrow" id="MathJax-Span-129"><span class="msubsup" id="MathJax-Span-130"><span style="display: inline-block; position: relative; width: 0.809em; height: 0px;"><span style="position: absolute; clip: rect(3.105em, 1000.55em, 4.372em, -1000em); top: -3.988em; left: 0em;"><span class="mi" id="MathJax-Span-131" style="font-family: MathJax_Math; font-style: italic;">f<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.06em;"></span></span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span><span style="position: absolute; top: -3.838em; left: 0.49em;"><span class="mi" id="MathJax-Span-132" style="font-size: 70.7%; font-family: MathJax_Math; font-style: italic;">i</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span></span></span><span class="mo" id="MathJax-Span-133" style="font-family: MathJax_Main;">(</span><span class="mi" id="MathJax-Span-134" style="font-family: MathJax_Math; font-style: italic;">s</span><span class="mo" id="MathJax-Span-135" style="font-family: MathJax_Main;">,</span><span class="mi" id="MathJax-Span-136" style="font-family: MathJax_Math; font-style: italic; padding-left: 0.167em;">a</span><span class="mo" id="MathJax-Span-137" style="font-family: MathJax_Main;">)</span></span><span style="display: inline-block; width: 0px; height: 2.262em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.371em; border-left: 0px solid; width: 0px; height: 1.343em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>f</mi><mi>i</mi></msub><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>a</mi><mo stretchy="false">)</mo></math></span></span><script type="math/tex" id="MathJax-Element-18">f_i(s,a)</script>.
+ In your code, you should implement the weight vector as a dictionary 
+mapping features (which the feature extractors will return) to weight 
+values. You will update your weight vectors similarly to how you updated
+ Q-values:</p>
+
+<span class="MathJax_Preview" style="color: inherit; display: none;"></span><div class="MathJax_Display"><span class="MathJax MathJax_FullWidth" id="MathJax-Element-19-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot; display=&quot;block&quot;&gt;&lt;mi mathvariant=&quot;normal&quot;&gt;&amp;#x0394;&lt;/mi&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mi&gt;R&lt;/mi&gt;&lt;mo&gt;+&lt;/mo&gt;&lt;mi&gt;&amp;#x03B3;&lt;/mi&gt;&lt;mi&gt;V&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;msup&gt;&lt;mi&gt;s&lt;/mi&gt;&lt;mo&gt;&amp;#x2032;&lt;/mo&gt;&lt;/msup&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;mi&gt;Q&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;s&lt;/mi&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mspace linebreak=&quot;newline&quot; /&gt;&lt;msub&gt;&lt;mi&gt;w&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/msub&gt;&lt;mo stretchy=&quot;false&quot;&gt;&amp;#x2190;&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;w&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/msub&gt;&lt;mo&gt;+&lt;/mo&gt;&lt;mi&gt;&amp;#x03B1;&lt;/mi&gt;&lt;mo&gt;&amp;#x22C5;&lt;/mo&gt;&lt;mi mathvariant=&quot;normal&quot;&gt;&amp;#x0394;&lt;/mi&gt;&lt;mo&gt;&amp;#x22C5;&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;f&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/msub&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;s&lt;/mi&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-138" style="width: 100%; display: inline-block; min-width: 13.455em;"><span style="display: inline-block; position: relative; width: 100%; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(3.001em, 1011.12em, 5.847em, -1000em); top: -3.988em; left: 0em; width: 100%;"><span class="mrow" id="MathJax-Span-139"><span style="display: inline-block; position: relative; width: 100%; height: 0px;"><span style="position: absolute; clip: rect(3.001em, 1011.12em, 4.417em, -1000em); top: -3.988em; left: 50%; margin-left: -5.605em;"><span class="mi" id="MathJax-Span-140" style="font-family: MathJax_Main;">Δ</span><span class="mo" id="MathJax-Span-141" style="font-family: MathJax_Main; padding-left: 0.278em;">=</span><span class="mi" id="MathJax-Span-142" style="font-family: MathJax_Math; font-style: italic; padding-left: 0.278em;">R</span><span class="mo" id="MathJax-Span-143" style="font-family: MathJax_Main; padding-left: 0.222em;">+</span><span class="mi" id="MathJax-Span-144" style="font-family: MathJax_Math; font-style: italic; padding-left: 0.222em;">γ<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.025em;"></span></span><span class="mi" id="MathJax-Span-145" style="font-family: MathJax_Math; font-style: italic; text-rendering: optimizelegibility;">V<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.186em;"></span></span><span class="mo" id="MathJax-Span-146" style="font-family: MathJax_Main;">(</span><span class="msup" id="MathJax-Span-147"><span style="display: inline-block; position: relative; width: 0.738em; height: 0px;"><span style="position: absolute; clip: rect(3.368em, 1000.42em, 4.177em, -1000em); top: -3.988em; left: 0em;"><span class="mi" id="MathJax-Span-148" style="font-family: MathJax_Math; font-style: italic;">s</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span><span style="position: absolute; top: -4.401em; left: 0.469em;"><span class="mo" id="MathJax-Span-149" style="font-size: 70.7%; font-family: MathJax_Main;">′</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span></span></span><span class="mo" id="MathJax-Span-150" style="font-family: MathJax_Main;">)</span><span class="mo" id="MathJax-Span-151" style="font-family: MathJax_Main; padding-left: 0.222em;">−</span><span class="mi" id="MathJax-Span-152" style="font-family: MathJax_Math; font-style: italic; padding-left: 0.222em;">Q</span><span class="mo" id="MathJax-Span-153" style="font-family: MathJax_Main;">(</span><span class="mi" id="MathJax-Span-154" style="font-family: MathJax_Math; font-style: italic;">s</span><span class="mo" id="MathJax-Span-155" style="font-family: MathJax_Main;">,</span><span class="mi" id="MathJax-Span-156" style="font-family: MathJax_Math; font-style: italic; padding-left: 0.167em;">a</span><span class="mo" id="MathJax-Span-157" style="font-family: MathJax_Main;">)</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span><span style="position: absolute; clip: rect(3.06em, 1010.7em, 4.417em, -1000em); top: -2.558em; left: 50%; margin-left: -5.397em;"><span class="mspace" id="MathJax-Span-158" style="height: 0em; vertical-align: 0em; width: 0em; display: inline-block; overflow: hidden;"></span><span class="msubsup" id="MathJax-Span-159"><span style="display: inline-block; position: relative; width: 1.035em; height: 0px;"><span style="position: absolute; clip: rect(3.367em, 1000.69em, 4.178em, -1000em); top: -3.988em; left: 0em;"><span class="mi" id="MathJax-Span-160" style="font-family: MathJax_Math; font-style: italic;">w</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span><span style="position: absolute; top: -3.838em; left: 0.716em;"><span class="mi" id="MathJax-Span-161" style="font-size: 70.7%; font-family: MathJax_Math; font-style: italic;">i</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span></span></span><span class="mo" id="MathJax-Span-162" style="font-family: MathJax_Main; padding-left: 0.278em;">←</span><span class="msubsup" id="MathJax-Span-163" style="padding-left: 0.278em;"><span style="display: inline-block; position: relative; width: 1.035em; height: 0px;"><span style="position: absolute; clip: rect(3.367em, 1000.69em, 4.178em, -1000em); top: -3.988em; left: 0em;"><span class="mi" id="MathJax-Span-164" style="font-family: MathJax_Math; font-style: italic;">w</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span><span style="position: absolute; top: -3.838em; left: 0.716em;"><span class="mi" id="MathJax-Span-165" style="font-size: 70.7%; font-family: MathJax_Math; font-style: italic;">i</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span></span></span><span class="mo" id="MathJax-Span-166" style="font-family: MathJax_Main; padding-left: 0.222em;">+</span><span class="mi" id="MathJax-Span-167" style="font-family: MathJax_Math; font-style: italic; padding-left: 0.222em;">α</span><span class="mo" id="MathJax-Span-168" style="font-family: MathJax_Main; padding-left: 0.222em;">⋅</span><span class="mi" id="MathJax-Span-169" style="font-family: MathJax_Main; padding-left: 0.222em;">Δ</span><span class="mo" id="MathJax-Span-170" style="font-family: MathJax_Main; padding-left: 0.222em;">⋅</span><span class="msubsup" id="MathJax-Span-171" style="padding-left: 0.222em;"><span style="display: inline-block; position: relative; width: 0.809em; height: 0px;"><span style="position: absolute; clip: rect(3.105em, 1000.55em, 4.372em, -1000em); top: -3.988em; left: 0em;"><span class="mi" id="MathJax-Span-172" style="font-family: MathJax_Math; font-style: italic;">f<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.06em;"></span></span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span><span style="position: absolute; top: -3.838em; left: 0.49em;"><span class="mi" id="MathJax-Span-173" style="font-size: 70.7%; font-family: MathJax_Math; font-style: italic;">i</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span></span></span><span class="mo" id="MathJax-Span-174" style="font-family: MathJax_Main;">(</span><span class="mi" id="MathJax-Span-175" style="font-family: MathJax_Math; font-style: italic;">s</span><span class="mo" id="MathJax-Span-176" style="font-family: MathJax_Main;">,</span><span class="mi" id="MathJax-Span-177" style="font-family: MathJax_Math; font-style: italic; padding-left: 0.167em;">a</span><span class="mo" id="MathJax-Span-178" style="font-family: MathJax_Main;">)</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span></span></span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -2.088em; border-left: 0px solid; width: 0px; height: 3.13em;"></span></span></nobr><span class="MJX_Assistive_MathML MJX_Assistive_MathML_Block" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi mathvariant="normal">Δ</mi><mo>=</mo><mi>R</mi><mo>+</mo><mi>γ</mi><mi>V</mi><mo stretchy="false">(</mo><msup><mi>s</mi><mo>′</mo></msup><mo stretchy="false">)</mo><mo>−</mo><mi>Q</mi><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>a</mi><mo stretchy="false">)</mo><mspace linebreak="newline"></mspace><msub><mi>w</mi><mi>i</mi></msub><mo stretchy="false">←</mo><msub><mi>w</mi><mi>i</mi></msub><mo>+</mo><mi>α</mi><mo>⋅</mo><mi mathvariant="normal">Δ</mi><mo>⋅</mo><msub><mi>f</mi><mi>i</mi></msub><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>a</mi><mo stretchy="false">)</mo></math></span></span></div><script type="math/tex; mode=display" id="MathJax-Element-19">\Delta = R + \gamma V(s') - Q(s, a)\\
+w_i\leftarrow w_i + \alpha \cdot \Delta \cdot f_i(s,a)</script>
+
+<p>Note that the <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-20-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi mathvariant=&quot;normal&quot;&gt;&amp;#x0394;&lt;/mi&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-179" style="width: 1.015em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.833em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.308em, 1000.79em, 2.381em, -1000em); top: -2.202em; left: 0em;"><span class="mrow" id="MathJax-Span-180"><span class="mi" id="MathJax-Span-181" style="font-family: MathJax_Main;">Δ</span></span><span style="display: inline-block; width: 0px; height: 2.202em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.071em; border-left: 0px solid; width: 0px; height: 1.002em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi mathvariant="normal">Δ</mi></math></span></span><script type="math/tex" id="MathJax-Element-20">\Delta</script> term is the same as in normal Q-learning, and <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-21-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;R&lt;/mi&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-182" style="width: 0.955em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.774em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.4em, 1000.77em, 2.461em, -1000em); top: -2.262em; left: 0em;"><span class="mrow" id="MathJax-Span-183"><span class="mi" id="MathJax-Span-184" style="font-family: MathJax_Math; font-style: italic;">R</span></span><span style="display: inline-block; width: 0px; height: 2.262em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.097em; border-left: 0px solid; width: 0px; height: 0.988em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>R</mi></math></span></span><script type="math/tex" id="MathJax-Element-21">R</script> is the reward for <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-22-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;s&lt;/mi&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;msup&gt;&lt;mi&gt;s&lt;/mi&gt;&lt;mo&gt;&amp;#x2032;&lt;/mo&gt;&lt;/msup&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-185" style="width: 4.11em; display: inline-block;"><span style="display: inline-block; position: relative; width: 3.393em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.324em, 1003.3em, 2.69em, -1000em); top: -2.262em; left: 0em;"><span class="mrow" id="MathJax-Span-186"><span class="mo" id="MathJax-Span-187" style="font-family: MathJax_Main;">(</span><span class="mi" id="MathJax-Span-188" style="font-family: MathJax_Math; font-style: italic;">s</span><span class="mo" id="MathJax-Span-189" style="font-family: MathJax_Main;">,</span><span class="mi" id="MathJax-Span-190" style="font-family: MathJax_Math; font-style: italic; padding-left: 0.167em;">a</span><span class="mo" id="MathJax-Span-191" style="font-family: MathJax_Main;">,</span><span class="msup" id="MathJax-Span-192" style="padding-left: 0.167em;"><span style="display: inline-block; position: relative; width: 0.738em; height: 0px;"><span style="position: absolute; clip: rect(3.368em, 1000.42em, 4.177em, -1000em); top: -3.988em; left: 0em;"><span class="mi" id="MathJax-Span-193" style="font-family: MathJax_Math; font-style: italic;">s</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span><span style="position: absolute; top: -4.351em; left: 0.469em;"><span class="mo" id="MathJax-Span-194" style="font-size: 70.7%; font-family: MathJax_Main;">′</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span></span></span><span class="mo" id="MathJax-Span-195" style="font-family: MathJax_Main;">)</span></span><span style="display: inline-block; width: 0px; height: 2.262em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.371em; border-left: 0px solid; width: 0px; height: 1.354em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>a</mi><mo>,</mo><msup><mi>s</mi><mo>′</mo></msup><mo stretchy="false">)</mo></math></span></span><script type="math/tex" id="MathJax-Element-22">(s, a, s’)</script>.</p>
+
+<p>By default, <code class="language-plaintext highlighter-rouge">ApproximateQAgent</code> uses the <code class="language-plaintext highlighter-rouge">IdentityExtractor</code>, which assigns a single feature to every <code class="language-plaintext highlighter-rouge">(state, action)</code> pair. With this feature extractor, your Approximate Q-learning agent should work identically to <code class="language-plaintext highlighter-rouge">QLearningAgent</code>. You can test this with the following command:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python pacman.py --agent approx --train 2000 --play 10 small
+</code></pre></div></div>
+
+<p>Important: <code class="language-plaintext highlighter-rouge">ApproximateQAgent</code> is a subclass of <code class="language-plaintext highlighter-rouge">QLearningAgent</code>, and it therefore shares several methods like <code class="language-plaintext highlighter-rouge">get_action</code>. Make sure that your methods in <code class="language-plaintext highlighter-rouge">QLearningAgent</code> call <code class="language-plaintext highlighter-rouge">get_q_value</code> instead of accessing the Q-table directly, so that when you override <code class="language-plaintext highlighter-rouge">get_q_value</code> in your approximate agent, the new approximate Q-values are used to compute actions.</p>
+
+<p>Once you’re confident that your approximate learner works correctly 
+with the identity features, run your approximate Q-learning agent with 
+our custom feature extractor, which can learn to win with ease (only 100
+ episodes):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python pacman.py --agent approx --feature simple --train 100 --play 10 small
+</code></pre></div></div>
+
+<p>Even larger layouts should be no problem for your <code class="language-plaintext highlighter-rouge">ApproximateQAgent</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python pacman.py --agent approx --feature simple --train 100 --play 10 medium
+</code></pre></div></div>
+
+<p>If you have no errors, your approximate Q-learning agent should win 
+for mediumGrid almost every time with these simple features, even with 
+only 50 training games.</p>
+
+<h2 id="6-feedback-5-points">6. Feedback [5 points]</h2>
+
+<ol>
+  <li>
+    <p><strong>[1 point]</strong> Approximately how many hours did you spend on this assignment?</p>
+  </li>
+  <li>
+    <p><strong>[2 point]</strong> Which aspects of this assignment did you find most challenging? Were there any significant stumbling blocks?</p>
+  </li>
+  <li>
+    <p><strong>[2 point]</strong> Which aspects of this assignment did you like? Is there anything you would have changed?</p>
+  </li>
+</ol>
+
+        </div>
+      </div>
+      
+      </div>
+
+    <footer class="text-center text-muted">
+      <hr>
+      
+      Last updated November 07, 2022 16:10:59.<br>
+      The source code is on <a href="https://github.com/artificial-intelligence-class/artificial-intelligence-class.github.io">GitHub</a>.
+      
+    </footer>
+
+    <script src="CIS%20521%20Homework%207%20Reinforcement%20Learning%20_files/jquery.min.js"></script>
+    <script src="CIS%20521%20Homework%207%20Reinforcement%20Learning%20_files/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $("#homework").addClass("active");
+        
+      });
+    </script>
+  
+
+<div style="position: absolute; width: 0px; height: 0px; overflow: hidden; padding: 0px; border: 0px none; margin: 0px;"><div id="MathJax_Font_Test" style="position: absolute; visibility: hidden; top: 0px; left: 0px; width: auto; padding: 0px; border: 0px none; margin: 0px; white-space: nowrap; text-align: left; text-indent: 0px; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; font-size: 40px; font-weight: normal; font-style: normal; font-size-adjust: none; font-family: MathJax_AMS, script;"></div></div></body></html>

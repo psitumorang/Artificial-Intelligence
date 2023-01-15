@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIS 521 Homework 1 "Python Skills"</title>
+
+    <!-- Mathjax -->
+    <script type="text/x-mathjax-config;executed=true">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          processEscapes: true
+        }
+      });
+    </script>
+    <script src="CIS%20521%20Homework%201%20Python%20Skills%20_files/MathJax.js" id="">
+    </script>
+    <script type="text/javascript" charset="utf-8" src="CIS%20521%20Homework%201%20Python%20Skills%20_files/MathJaxLocal.js">
+    </script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1px; bottom: 2px; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style>
+
+    <!-- CSS -->
+    <link href="CIS%20521%20Homework%201%20Python%20Skills%20_files/bootstrap.min.css" rel="stylesheet">
+
+    <link href="CIS%20521%20Homework%201%20Python%20Skills%20_files/syntax.css" rel="stylesheet">
+
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+<style>
+/* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
+.flip-card {
+  background-color: transparent;
+  width: 300px;
+  height: 200px;
+  border: 1px solid #f1f1f1;
+  perspective: 1000px; /* Remove this if you don't want the 3D effect */
+}
+
+/* This container is needed to position the front and back side */
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
+}
+
+/* Style the front side (fallback if image is missing) */
+.flip-card-front {
+  background-color: #bbb;
+  color: black;
+}
+
+/* Style the back side */
+.flip-card-back {
+  background-color: dodgerblue;
+  color: white;
+  transform: rotateY(180deg);
+}
+</style>
+  <style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style></head>
+<body>
+    <a class="sr-only" href="#content">Skip to main content</a>
+
+    <!-- Docs master nav -->
+    <header class="navbar navbar-static-top navbar-default" role="banner">
+      <div class="container">
+        <div class="row">
+        <div class="navbar-header">
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <ul class="nav navbar-nav">
+            <div class="hidden-sm hidden-xs"><li id="main-page"><a href="https://artificial-intelligence-class.org/index.html" class="navbar-brand">CIS 521 - Artificial Intelligence</a></li></div>
+            <div class="visible-sm visible-xs"><li id="main-page"><a href="https://artificial-intelligence-class.org/index.html" class="navbar-brand">CIS 521</a></li></div>
+          </ul>
+        </div>
+        <nav class="collapse navbar-collapse" role="navigation">
+          <ul class="nav navbar-nav">
+            <li id="homework" class="active">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">Homework<span class="caret"></span></a>
+              <ol class="dropdown-menu">
+                <li><a href="https://artificial-intelligence-class.org/homeworks/python-skills/python-skills.html">HW1: Python Skills</a></li>
+                <li><a href="https://artificial-intelligence-class.org/homeworks/uninformed-search/uninformed-search.html">HW2: Uninformed Search</a></li>
+                <!--
+                <li><a href="/homeworks/python-skills/python-skills.html">HW1: Python Skills</a></li>
+                <li><a href="/homeworks/uninformed-search/uninformed-search.html">HW2: Uninformed Search</a></li>
+                -->
+                <li><a href="https://artificial-intelligence-class.org/homeworks/informed-search/informed-search.html">HW3: Informed Search</a>
+                </li><li><a href="https://artificial-intelligence-class.org/homeworks/adversarial-search/adversarial-search.html">HW4: Games and Adversarial Search</a>
+                </li><li><a href="https://artificial-intelligence-class.org/homeworks/sudoku/sudoku.html">HW5: Sudoku</a>
+                </li><li><a href="https://artificial-intelligence-class.org/homeworks/markov-decision-processes/markov-decision-processes.html">HW6: MDPs and Gridworld </a></li>
+                <li><a href="https://artificial-intelligence-class.org/homeworks/reinforcement-learning/reinforcement-learning.html">HW7: Reinforcement Learning</a></li>
+                <li><a href="https://artificial-intelligence-class.org/homeworks/language-models/language-models.html">HW8: Language Models</a></li>
+                <li><a href="https://artificial-intelligence-class.org/homeworks/perceptrons/perceptrons.html">HW9: Perceptrons</a></li>
+                <li><a href="https://artificial-intelligence-class.org/homeworks/large-LMs/large-LMs.html">HW10: Large Language Models</a></li> 
+<!--                
+                <li><a href="/r2d2_assignments/20fall/hw0/hw0.html">EC0: Use Python to Control R2D2</a></li>
+                <li><a href="/r2d2_assignments/20fall/hw0/sensor-pack-setup.html">EC0: R2D2 Sensor Pack Setup Instructions</a></li>
+                <li><a href="/r2d2_assignments/20fall/hw1/hw1.html">EC1: R2D2 as an Intelligent Agent</a></li>
+                <li><a href="/r2d2_assignments/20fall/hw2/hw2.html">EC2: Robot Navigation</a></li>
+                
+                <li><a href="/r2d2_assignments/20fall/hw3/hw3.html">EC3: R2-D2 Battle</a></li>
+                <li><a href="/r2d2_assignments/20fall/hw4/hw4.html">EC4: R2-D2 Face & Mask Detector </a></li>
+                <li><a href="/r2d2_assignments/20fall/hw5/hw5.html">EC5: R2-D2 Intent Detection </a></li>
+!-->
+              </ol>
+            </li><li id="lectures"><a href="https://artificial-intelligence-class.org/schedule.html#now">Schedule</a></li>
+            <li id="recordings"><a href="https://artificial-intelligence-class.org/modules.html#now">Recordings</a></li>
+            <li id="staff"><a href="https://artificial-intelligence-class.org/staff.html">Staff</a></li>
+          </ul>
+        </nav>
+      </div>
+      </div>
+    </header>
+
+    <div class="container">
+      
+      <div class="row">
+        <div class="col-sm-2 hidden-sm hidden-xs">
+          <a href="http://xkcd.com/353/"> 
+          <img src="CIS%20521%20Homework%201%20Python%20Skills%20_files/python.jpg" class="img-responsive img-rounded" alt="">
+          </a> 
+          <span class="text-muted"><i>Hello world!</i></span>
+
+        </div>
+
+        <div class="col-sm-10">
+          <!-- Check whether the assignment is ready to release -->
+
+<!-- End of check whether the assignment is up to date -->
+
+<!-- Check whether the assignment is up to date -->
+
+<!-- End of check whether the assignment is up to date -->
+
+<div class="alert alert-info">
+This assignment is due on Wednesday, September 14, 2022 before 11:59PM. 
+</div>
+
+<div class="alert alert-info">
+You can download the materials for this assignment here:
+<ul>
+
+<li><a href="https://artificial-intelligence-class.org/homeworks/python-skills/python-skills.py">skeleton file</a></li>
+
+</ul>
+</div>
+
+<div class="alert alert-danger">
+  <p>The version of Python used by the autograders is Python 3.7, but Python 3.9 should be fine. Note: <code class="language-plaintext highlighter-rouge">math.comb</code> will not work for homework 2 since it’s not available after Python 3.8.</p>
+
+  <p>Please read each homework carefully for instructions regarding 
+importing library. Most of the homework assignments do not allow to use 
+numpy, pandas, etc.</p>
+</div>
+
+<h1 id="homework-1-python-skills-100-points">Homework 1: Python Skills [100 points]</h1>
+
+<h2 id="instructions">Instructions</h2>
+
+<p>In this assignment, you will answer some conceptual questions about 
+Python and write a collection of basic algorithms and data structures.</p>
+
+<p>A skeleton file <a href="https://artificial-intelligence-class.org/homeworks/python-skills/python-skills.py">python-skills.py</a>
+ containing empty definitions for each question has been provided. Since
+ portions of this assignment will be graded automatically, none of the 
+names or function signatures in this file should be modified. However, 
+you are free to introduce additional variables or functions if needed.</p>
+
+<p>Unless explicitly stated otherwise, you may not import any of the 
+standard Python modules (except for section 7), meaning your solutions 
+should not include any lines of the form <code class="language-plaintext highlighter-rouge">import x</code> or <code class="language-plaintext highlighter-rouge">from x import y</code>. Accordingly, you may find it helpful to refresh yourself on Python’s built-in functions and data types.</p>
+
+<p>You will find that in addition to a problem specification, each 
+programming question also includes a pair of examples from the Python 
+interpreter. These are meant to illustrate typical use cases, and should
+ not be taken as comprehensive test suites.</p>
+
+<p>You may submit as many times as you would like before the deadline, but only the last submission will be saved.</p>
+
+<p>You are strongly encouraged to follow the Python style guidelines set forth in <a href="http://www.python.org/dev/peps/pep-0008/">PEP 8</a>, which was written in part by the creator of Python. However, your code will not be graded for style.</p>
+
+<p>Once you have completed the assignment, you should submit your file on <a href="https://www.gradescope.com/">Gradescope</a>.</p>
+
+<p>You may submit as many times as you would like before the deadline, but only the last submission will be saved.</p>
+
+<h2 id="1-python-concepts---study-questions-0-points">1. Python Concepts - Study Questions [0 points]</h2>
+
+<p>For each of the following questions, write your answers as 
+triply-quoted strings using the indicated variables in the provided 
+file.</p>
+
+<ol>
+  <li>
+    <p><strong>[0 points]</strong> Explain what it means for Python to be both strongly and dynamically typed, and give a concrete example of each.</p>
+  </li>
+  <li><strong>[0 points]</strong> You would like to create a dictionary 
+that maps some 2-dimensional points to their associated names. As a 
+first attempt, you write the following code:
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">points_to_names</span> <span class="o">=</span> <span class="p">{[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]:</span> <span class="s">"home"</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]:</span> <span class="s">"school"</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]:</span> <span class="s">"market"</span><span class="p">}</span>
+</code></pre></div>    </div>
+    <p>However, this results in a type error. Describe what the problem is, and propose a solution.</p>
+  </li>
+  <li>
+    <p><strong>[0 points]</strong> Consider the following two functions, each of which concatenates a list of strings.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">def</span> <span class="nf">concatenate1</span><span class="p">(</span><span class="n">strings</span><span class="p">):</span>
+     <span class="n">result</span> <span class="o">=</span> <span class="s">""</span>
+     <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">strings</span><span class="p">:</span>
+         <span class="n">result</span> <span class="o">+=</span> <span class="n">s</span>
+     <span class="k">return</span> <span class="n">result</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">def</span> <span class="nf">concatenate2</span><span class="p">(</span><span class="n">strings</span><span class="p">):</span>
+     <span class="k">return</span> <span class="s">""</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">strings</span><span class="p">)</span>
+</code></pre></div>    </div>
+
+    <p>One of these approaches is significantly faster than the other 
+for large inputs. Which version is better, and what is the reason for 
+the discrepancy?</p>
+  </li>
+</ol>
+
+<h2 id="2-working-with-lists-15-points">2. Working with Lists [15 points]</h2>
+
+<ol>
+  <li>
+    <p><strong>[5 points]</strong> Consider the function <code class="language-plaintext highlighter-rouge">extract_and_apply(l, p, f)</code> shown below, which extracts the elements of a list <code class="language-plaintext highlighter-rouge">l</code> satisfying a boolean predicate <code class="language-plaintext highlighter-rouge">p</code>, applies a function <code class="language-plaintext highlighter-rouge">f</code> to each such element, and returns the result.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">def</span> <span class="nf">extract_and_apply</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
+     <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+     <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+         <span class="k">if</span> <span class="n">p</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+             <span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+     <span class="k">return</span> <span class="n">result</span>
+</code></pre></div>    </div>
+    <p>Rewrite extract_and_apply(l, p, f) in one line using a list comprehension.</p>
+  </li>
+  <li>
+    <p><strong>[5 points]</strong>  Write a function <code class="language-plaintext highlighter-rouge">concatenate(seqs)</code>
+ that returns a list containing the concatenation of the elements of the
+ input sequences. Your implementation should consist of a single list 
+comprehension, and should not exceed one line.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">concatenate</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">concatenate</span><span class="p">([</span><span class="s">"abc"</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])])</span>
+ <span class="p">[</span><span class="s">'a'</span><span class="p">,</span> <span class="s">'b'</span><span class="p">,</span> <span class="s">'c'</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>[5 points]</strong>  Write a function <code class="language-plaintext highlighter-rouge">transpose(matrix)</code>
+ that returns the transpose of the input matrix, which is represented as
+ a list of lists. Recall that the transpose of a matrix is obtained by 
+swapping its rows with its columns. More concretely, the equality <code class="language-plaintext highlighter-rouge">matrix[i][j] == transpose(matrix)[j][i]</code> should hold for all valid indices <code class="language-plaintext highlighter-rouge">i</code> and <code class="language-plaintext highlighter-rouge">j</code>.
+ You may assume that the input matrix is well-formed, i.e., that each 
+row is of equal length. You may further assume that the input matrix is 
+non-empty. Your function should not modify the input.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">transpose</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]])</span>
+ <span class="p">[[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">]]</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">transpose</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
+ <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]]</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="3-sequence-slicing-9-points">3. Sequence Slicing [9 points]</h2>
+
+<ol>
+  <li>
+    <p><strong>[3 points]</strong> The functions in this section should 
+be implemented using sequence slices. Recall that the slice parameters 
+take on sensible default values when omitted. In some cases, it may be 
+necessary to use the optional third parameter to specify a step size.</p>
+
+    <p>Write a function <code class="language-plaintext highlighter-rouge">copy(seq)</code> that returns a new sequence containing the same elements as the input sequence.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">copy</span><span class="p">(</span><span class="s">"abc"</span><span class="p">)</span>
+ <span class="s">'abc'</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">copy</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+ <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span> <span class="n">y</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+ <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>[3 points]</strong> Write a function <code class="language-plaintext highlighter-rouge">all_but_last(seq)</code>
+ that returns a new sequence containing all but the last element of the 
+input sequence. If the input sequence is empty, a new empty sequence of 
+the same type should be returned.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">all_but_last</span><span class="p">(</span><span class="s">"abc"</span><span class="p">)</span>
+ <span class="s">'ab'</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">all_but_last</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+ <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">all_but_last</span><span class="p">(</span><span class="s">""</span><span class="p">)</span>
+ <span class="s">''</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">all_but_last</span><span class="p">([])</span>
+ <span class="p">[]</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>[3 points]</strong> Write a function <code class="language-plaintext highlighter-rouge">every_other(seq)</code>
+ that returns a new sequence containing every other element of the input
+ sequence, starting with the first. This function can be written in one 
+line using the optional third parameter of the slice notation.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">every_other</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">every_other</span><span class="p">(</span><span class="s">"abcde"</span><span class="p">)</span>
+ <span class="s">'ace'</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">every_other</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">every_other</span><span class="p">(</span><span class="s">"abcdef"</span><span class="p">)</span>
+ <span class="s">'ace'</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="4-combinatorial-algorithms-12-points">4. Combinatorial Algorithms [12 points]</h2>
+
+<p>The functions in this section should be implemented as generators. 
+You may generate the output in any order you find convenient, as long as
+ the correct elements are produced. However, in some cases, you may find
+ that the order of the example output hints at a possible 
+implementation.</p>
+
+<p>Although generators in Python can be used in a variety of ways, you 
+will not need to use any of their more sophisticated features here. 
+Simply keep in mind that where you might normally return a list of 
+elements, you should instead yield the individual elements.</p>
+
+<p>Since the contents of a generator cannot be viewed without employing 
+some form of iteration, we wrap all function calls in this section’s 
+examples with the list function for convenience.</p>
+
+<ol>
+  <li>
+    <p><strong>[6 points]</strong> The prefixes of a sequence include 
+the empty sequence, the first element, the first two elements, etc., up 
+to and including the full sequence itself. Similarly, the suffixes of a 
+sequence include the empty sequence, the last element, the last two 
+elements, etc., up to and including the full sequence itself. Write a 
+pair of functions <code class="language-plaintext highlighter-rouge">prefixes(seq)</code> and <code class="language-plaintext highlighter-rouge">suffixes(seq)</code> that yield all prefixes and suffixes of the input sequence.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="n">prefixes</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]))</span>
+ <span class="p">[[],</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]]</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="n">suffixes</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]))</span>
+ <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="p">[]]</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="n">prefixes</span><span class="p">(</span><span class="s">"abc"</span><span class="p">))</span>
+ <span class="p">[</span><span class="s">''</span><span class="p">,</span> <span class="s">'a'</span><span class="p">,</span> <span class="s">'ab'</span><span class="p">,</span> <span class="s">'abc'</span><span class="p">]</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="n">suffixes</span><span class="p">(</span><span class="s">"abc"</span><span class="p">))</span>
+ <span class="p">[</span><span class="s">'abc'</span><span class="p">,</span> <span class="s">'bc'</span><span class="p">,</span> <span class="s">'c'</span><span class="p">,</span> <span class="s">''</span><span class="p">]</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>[6 points]</strong> Write a function <code class="language-plaintext highlighter-rouge">slices(seq)</code> that yields all non-empty slices of the input sequence.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="n">slices</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]))</span>
+ <span class="p">[[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">]]</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="n">slices</span><span class="p">(</span><span class="s">"abc"</span><span class="p">))</span>
+ <span class="p">[</span><span class="s">'a'</span><span class="p">,</span> <span class="s">'ab'</span><span class="p">,</span> <span class="s">'abc'</span><span class="p">,</span> <span class="s">'b'</span><span class="p">,</span> <span class="s">'bc'</span><span class="p">,</span> <span class="s">'c'</span><span class="p">]</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="5-text-processing-20-points">5. Text Processing [20 points]</h2>
+
+<ol>
+  <li>
+    <p><strong>[5 points]</strong> A common preprocessing step in many 
+natural language processing tasks is text normalization, wherein words 
+are converted to lowercase, extraneous whitespace is removed, etc. Write
+ a function <code class="language-plaintext highlighter-rouge">normalize(text)</code>
+ that returns a normalized version of the input string, in which all 
+words have been converted to lowercase and are separated by a single 
+space. No leading or trailing whitespace should be present in the 
+output.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">normalize</span><span class="p">(</span><span class="s">"This is an example."</span><span class="p">)</span>
+ <span class="s">'this is an example.'</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">normalize</span><span class="p">(</span><span class="s">"   EXTRA   SPACE   "</span><span class="p">)</span>
+ <span class="s">'extra space'</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>[5 points]</strong> Write a function <code class="language-plaintext highlighter-rouge">no_vowels(text)</code>
+ that removes all vowels from the input string and returns the result. 
+For the purposes of this problem, the letter ‘y’ is not considered to be
+ a vowel.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">no_vowels</span><span class="p">(</span><span class="s">"This Is An Example."</span><span class="p">)</span>
+ <span class="s">'Ths s n xmpl.'</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">no_vowels</span><span class="p">(</span><span class="s">"We love Python!"</span><span class="p">)</span>
+ <span class="s">'W lv Pythn!'</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>[5 points]</strong> Write a <code class="language-plaintext highlighter-rouge">function digits_to_words(text)</code>
+ that extracts all digits from the input string, spells them out as 
+lowercase English words, and returns a new string in which they are each
+ separated by a single space. If the input string contains no digits, 
+then an empty string should be returned.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">digits_to_words</span><span class="p">(</span><span class="s">"Zip Code: 19104"</span><span class="p">)</span>
+ <span class="s">'one nine one zero four'</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">digits_to_words</span><span class="p">(</span><span class="s">"Pi is 3.1415..."</span><span class="p">)</span>
+ <span class="s">'three one four one five'</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>[5 points]</strong> Although there exist many naming 
+conventions in computer programming, two of them are particularly 
+widespread. In the first, words in a variable name are separated using 
+underscores. In the second, words in a variable name are written in 
+mixed case, and are strung together without a delimiter. By mixed case, 
+we mean that the first word is written in lowercase, and that subsequent
+ words have a capital first letter. Write a <code class="language-plaintext highlighter-rouge">function to_mixed_case(name)</code> that converts a variable <code class="language-plaintext highlighter-rouge">name</code>
+ from the former convention to the latter. Leading and trailing 
+underscores should be ignored. If the variable name consists solely of 
+underscores, then an empty string should be returned.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">to_mixed_case</span><span class="p">(</span><span class="s">"to_mixed_case"</span><span class="p">)</span>
+ <span class="s">'toMixedCase'</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">to_mixed_case</span><span class="p">(</span><span class="s">"__EXAMPLE__NAME__"</span><span class="p">)</span>
+ <span class="s">'exampleName'</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="6-polynomials-39-points">6. Polynomials [39 points]</h2>
+
+<p>In this section, you will implement a simple Polynomial class 
+supporting basic arithmetic, simplification, evaluation, and 
+pretty-printing. An example demonstrating these capabilities is shown 
+below.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="p">([(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]),</span> <span class="n">Polynomial</span><span class="p">([(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="p">);</span> <span class="k">print</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+<span class="mi">2</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="mi">2</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">r</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span> <span class="o">*</span> <span class="n">p</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">q</span> <span class="o">*</span> <span class="n">q</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">p</span> <span class="o">*</span> <span class="n">q</span><span class="p">);</span> <span class="k">print</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<span class="mi">4</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">4</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span><span class="n">x</span> <span class="o">-</span> <span class="mi">2</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="mi">4</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="n">x</span> <span class="o">-</span> <span class="mi">2</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">r</span><span class="p">.</span><span class="n">simplify</span><span class="p">();</span> <span class="k">print</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<span class="mi">4</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="n">r</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)]</span>
+<span class="p">[(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">67</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">39</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">19</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">19</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">39</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">67</span><span class="p">)]</span></code></pre></figure>
+
+<ol>
+  <li>
+    <p><strong>[3 points]</strong> In this problem, we will think of a 
+polynomial as an immutable object, represented internally as a tuple of 
+coefficient-power pairs. For instance, the polynomial 2x+1 would be 
+represented internally by the tuple <code class="language-plaintext highlighter-rouge">((2, 1), (1, 0))</code>. Write an initialization method <code class="language-plaintext highlighter-rouge">__init__(self, polynomial)</code>
+ that converts the input sequence polynomial of coefficient-power pairs 
+into a tuple and saves it for future use. Also write a corresponding 
+method <code class="language-plaintext highlighter-rouge">get_polynomial(self)</code> that returns this internal representation.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="p">([(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)])</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="p">.</span><span class="n">get_polynomial</span><span class="p">()</span>
+ <span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="p">(((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="p">.</span><span class="n">get_polynomial</span><span class="p">()</span>
+ <span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>[4 points]</strong>
+Write a <code class="language-plaintext highlighter-rouge">__neg__(self)</code> method that returns a new polynomial equal to the negation of self. This method will be used by Python for unary negation.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="p">([(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)])</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">q</span> <span class="o">=</span> <span class="o">-</span><span class="n">p</span><span class="p">;</span> <span class="n">q</span><span class="p">.</span><span class="n">get_polynomial</span><span class="p">()</span>
+ <span class="p">((</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="p">([(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)])</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">q</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="o">-</span><span class="n">p</span><span class="p">);</span> <span class="n">q</span><span class="p">.</span><span class="n">get_polynomial</span><span class="p">()</span>
+ <span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>[3 points]</strong>
+Write an <code class="language-plaintext highlighter-rouge">__add__(self, other)</code>
+ method that returns a new polynomial equal to the sum of self and 
+other. This method will be used by Python for addition. No 
+simplification should be performed on the result.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="p">([(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)])</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">q</span> <span class="o">=</span> <span class="n">p</span> <span class="o">+</span> <span class="n">p</span><span class="p">;</span> <span class="n">q</span><span class="p">.</span><span class="n">get_polynomial</span><span class="p">()</span>
+ <span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="p">([(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)])</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">q</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="p">([(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)])</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">r</span> <span class="o">=</span> <span class="n">p</span> <span class="o">+</span> <span class="n">q</span><span class="p">;</span> <span class="n">r</span><span class="p">.</span><span class="n">get_polynomial</span><span class="p">()</span>
+ <span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>[3 points]</strong>
+Write a <code class="language-plaintext highlighter-rouge">__sub__(self, other)</code>
+ method that returns a new polynomial equal to the difference between 
+self and other. This method will be used by Python for subtraction. No 
+simplification should be performed on the result.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="p">([(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)])</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">q</span> <span class="o">=</span> <span class="n">p</span> <span class="o">-</span> <span class="n">p</span><span class="p">;</span> <span class="n">q</span><span class="p">.</span><span class="n">get_polynomial</span><span class="p">()</span>
+ <span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="p">([(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)])</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">q</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="p">([(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)])</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">r</span> <span class="o">=</span> <span class="n">p</span> <span class="o">-</span> <span class="n">q</span><span class="p">;</span> <span class="n">r</span><span class="p">.</span><span class="n">get_polynomial</span><span class="p">()</span>
+ <span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>[5 points]</strong>
+Write a <code class="language-plaintext highlighter-rouge">__mul__(self, other)</code>
+ method that returns a new polynomial equal to the product of self and 
+other. This method will be used by Python for multiplication. No 
+simplification should be performed on the result. Your result does not 
+need to match the examples below exactly, as long as the same terms are 
+present in some order.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="p">([(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)])</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">q</span> <span class="o">=</span> <span class="n">p</span> <span class="o">*</span> <span class="n">p</span><span class="p">;</span> <span class="n">q</span><span class="p">.</span><span class="n">get_polynomial</span><span class="p">()</span>
+ <span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="p">([(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)])</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">q</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="p">([(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)])</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">r</span> <span class="o">=</span> <span class="n">p</span> <span class="o">*</span> <span class="n">q</span><span class="p">;</span> <span class="n">r</span><span class="p">.</span><span class="n">get_polynomial</span><span class="p">()</span>
+ <span class="p">((</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>[3 points]</strong>
+Write a <code class="language-plaintext highlighter-rouge">__call__(self, x)</code>
+ method that returns the result of evaluating the current polynomial at 
+the point x. This method will be used by Python when a polynomial is 
+called as a function. <em>Hint: This method can be written in one line using Python’s exponentiation operator, <code class="language-plaintext highlighter-rouge">**</code>, and the built-in sum function.</em></p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="p">([(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)])</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="n">p</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="p">([(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)])</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">q</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">p</span> <span class="o">*</span> <span class="n">p</span><span class="p">)</span> <span class="o">+</span> <span class="n">p</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="n">q</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span>
+ <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="o">-</span><span class="mi">42</span><span class="p">,</span> <span class="o">-</span><span class="mi">72</span><span class="p">]</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>[8 points]</strong>
+Write a <code class="language-plaintext highlighter-rouge">simplify(self)</code>
+ method that replaces the polynomial’s internal representation with an 
+equivalent, simplified representation. Unlike the previous methods, 
+simplify(self) does not return a new polynomial, but rather acts in 
+place. However, because the fundamental character of the polynomial is 
+not changing, we do not consider this to violate the notion that 
+polynomials are immutable.</p>
+
+    <p>The simplification process should begin by combining terms with a
+ common power. Then, terms with a coefficient of zero should be removed,
+ and the remaining terms should be sorted in decreasing order based on 
+their power. In the event that all terms have a coefficient of zero 
+after the first step, the polynomial should be simplified to the single 
+term \(0⋅x^0\), i.e. <code class="language-plaintext highlighter-rouge">(0, 0)</code>.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="p">([(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)])</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">q</span> <span class="o">=</span> <span class="o">-</span><span class="n">p</span> <span class="o">+</span> <span class="p">(</span><span class="n">p</span> <span class="o">*</span> <span class="n">p</span><span class="p">);</span> <span class="n">q</span><span class="p">.</span><span class="n">get_polynomial</span><span class="p">()</span>
+ <span class="p">((</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+  <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">q</span><span class="p">.</span><span class="n">simplify</span><span class="p">();</span> <span class="n">q</span><span class="p">.</span><span class="n">get_polynomial</span><span class="p">()</span>
+ <span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="p">([(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)])</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">q</span> <span class="o">=</span> <span class="n">p</span> <span class="o">-</span> <span class="n">p</span><span class="p">;</span> <span class="n">q</span><span class="p">.</span><span class="n">get_polynomial</span><span class="p">()</span>
+ <span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">q</span><span class="p">.</span><span class="n">simplify</span><span class="p">();</span> <span class="n">q</span><span class="p">.</span><span class="n">get_polynomial</span><span class="p">()</span>
+ <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>[10 points]</strong>
+Write a <code class="language-plaintext highlighter-rouge">__str__(self)</code>
+ method that returns a human-readable string representing the 
+polynomial. This method will be used by Python when the str function is 
+called on a polynomial, or when a polynomial is printed.</p>
+
+    <p>In general, your function should render polynomials as a sequence of signs and terms each separated by a single space, i.e. <code class="language-plaintext highlighter-rouge">"sign1 term1 sign2 term2 ... signN termN"</code>, where signs can be <code class="language-plaintext highlighter-rouge">"+"</code> or <code class="language-plaintext highlighter-rouge">"-"</code>, and terms have the form <code class="language-plaintext highlighter-rouge">"ax^b"</code> for coefficient <code class="language-plaintext highlighter-rouge">a</code> and power <code class="language-plaintext highlighter-rouge">b</code>.
+ However, in adherence with conventional mathematical notation, there 
+are a few exceptional cases that require special treatment:</p>
+
+    <ul>
+      <li>The first sign should not be separated from the first term by a
+ space, and should be left blank if the first term has a positive 
+coefficient.</li>
+      <li>The variable and power portions of a term should be omitted if the power is 0 , leaving only the coefficient.</li>
+      <li>The power portion of a term should be omitted if the power is 1.</li>
+      <li>Coefficients with magnitude 0 should always have a positive sign.</li>
+      <li>Coefficients with magnitude 1 should be omitted, unless the power is 0.</li>
+    </ul>
+
+    <p><br>
+ You may assume that all polynomials have integer coefficients and non-negative integer powers.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="p">([(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)])</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">qs</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">p</span> <span class="o">+</span> <span class="n">p</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span> <span class="o">-</span> <span class="n">p</span><span class="p">,</span> <span class="n">p</span> <span class="o">*</span> <span class="n">p</span><span class="p">)</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">qs</span><span class="p">:</span> <span class="n">q</span><span class="p">.</span><span class="n">simplify</span><span class="p">();</span> <span class="nb">str</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+ <span class="p">...</span>
+ <span class="s">'x + 1'</span>
+ <span class="s">'2x + 2'</span>
+ <span class="s">'-x - 1'</span>
+ <span class="s">'-2x - 2'</span>
+ <span class="s">'x^2 + 2x + 1'</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="p">([(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)])</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">);</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span> <span class="o">*</span> <span class="n">p</span><span class="p">);</span> <span class="nb">str</span><span class="p">(</span><span class="o">-</span><span class="n">p</span> <span class="o">*</span> <span class="n">p</span><span class="p">)</span>
+ <span class="s">'0x + 2x^3'</span>
+ <span class="s">'0x^2 + 0x^4 + 0x^4 + 4x^6'</span>
+ <span class="s">'0x^2 + 0x^4 + 0x^4 - 4x^6'</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">q</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="p">([(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)])</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="nb">str</span><span class="p">(</span><span class="n">q</span><span class="p">);</span> <span class="nb">str</span><span class="p">(</span><span class="n">q</span> <span class="o">*</span> <span class="n">q</span><span class="p">);</span> <span class="nb">str</span><span class="p">(</span><span class="o">-</span><span class="n">q</span> <span class="o">*</span> <span class="n">q</span><span class="p">)</span>
+ <span class="s">'x + 2x^3'</span>
+ <span class="s">'x^2 + 2x^4 + 2x^4 + 4x^6'</span>
+ <span class="s">'-x^2 - 2x^4 - 2x^4 - 4x^6'</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="7-python-packages-4-points">7. Python Packages [4 points]</h2>
+
+<p>In this section, you are allowed to use external python packages which are widely used in Artificial Intelligence.</p>
+
+<ol>
+  <li>
+    <p><strong>[2 point]</strong> <strong>Numpy</strong></p>
+
+    <p>Install the numpy first:</p>
+
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code> pip3 <span class="nb">install </span>numpy
+</code></pre></div>    </div>
+
+    <p>Use <a href="https://numpy.org/">numpy</a> package to implement the <code class="language-plaintext highlighter-rouge">sort_array(list_of_matrics)</code> which takes in a list of matrices with various dimensions and return a sorted <strong>1D</strong> array with <strong>decreasing</strong> order contains all the values in these matrices. The data type of the returned array is <strong>int</strong>.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">matrix1</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">matrix2</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">]])</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">sort_array</span><span class="p">([</span><span class="n">matrix1</span><span class="p">,</span> <span class="n">matrix2</span><span class="p">])</span>
+ <span class="n">array</span><span class="p">([</span> <span class="mi">9</span><span class="p">,</span>  <span class="mi">8</span><span class="p">,</span>  <span class="mi">7</span><span class="p">,</span>  <span class="mi">7</span><span class="p">,</span>  <span class="mi">6</span><span class="p">,</span>  <span class="mi">5</span><span class="p">,</span>  <span class="mi">4</span><span class="p">,</span>  <span class="mi">3</span><span class="p">,</span>  <span class="mi">2</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+</code></pre></div>    </div>
+
+    <p>Check this <a href="https://numpy.org/devdocs/user/quickstart.html">tutorial</a> for some hints.</p>
+  </li>
+  <li>
+    <p><strong>[2 points]</strong> <strong>NLTK</strong>
+ Install the <a href="https://www.nltk.org/index.html">nltk</a> first:</p>
+
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code> pip3 <span class="nb">install </span>nltk
+</code></pre></div>    </div>
+
+    <p>You may also need to download some extra data:</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">nltk</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">nltk</span><span class="p">.</span><span class="n">download</span><span class="p">(</span><span class="s">'stopwords'</span><span class="p">)</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">nltk</span><span class="p">.</span><span class="n">download</span><span class="p">(</span><span class="s">'punkt'</span><span class="p">)</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">nltk</span><span class="p">.</span><span class="n">download</span><span class="p">(</span><span class="s">'averaged_perceptron_tagger'</span><span class="p">)</span>
+</code></pre></div>    </div>
+
+    <p>Implement the <code class="language-plaintext highlighter-rouge">POS_tag(sentence)</code>
+ function which takes in a string and return the Part-of-Speech(POS) tag
+ of each word in the sentence. To complete this task, you need to 
+fulfill the requirements shown below:</p>
+
+    <p>1) Convert all the characters in the sentence to lower case.</p>
+
+    <p>2) Tokenize the sentence.</p>
+
+    <p>3) Remove the stop words and punctuation.</p>
+
+    <p>4) Conduct the pos tagging and return a list of tuples.</p>
+
+    <p>Here is a test case:</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">nltk</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">sentence</span> <span class="o">=</span> <span class="s">'The Force will be with you. Always.'</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">POS_tag</span><span class="p">(</span><span class="n">sentence</span><span class="p">)</span>
+ <span class="p">[(</span><span class="s">'force'</span><span class="p">,</span> <span class="s">'NN'</span><span class="p">),</span> <span class="p">(</span><span class="s">'always'</span><span class="p">,</span> <span class="s">'RB'</span><span class="p">)]</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="8-feedback-3-points">8. Feedback [3 points]</h2>
+
+<ol>
+  <li>
+    <p><strong>[1 points]</strong> Approximately how long did you spend on this assignment?</p>
+  </li>
+  <li>
+    <p><strong>[1 points]</strong> Which aspects of this assignment did you find most challenging? Were there any significant stumbling blocks?</p>
+  </li>
+  <li>
+    <p><strong>[1 points]</strong> Which aspects of this assignment did you like? Is there anything you would have changed?</p>
+  </li>
+</ol>
+
+        </div>
+      </div>
+      
+      </div>
+
+    <footer class="text-center text-muted">
+      <hr>
+      
+      Last updated September 06, 2022 17:53:58.<br>
+      The source code is on <a href="https://github.com/artificial-intelligence-class/artificial-intelligence-class.github.io">GitHub</a>.
+      
+    </footer>
+
+    <script src="CIS%20521%20Homework%201%20Python%20Skills%20_files/jquery.min.js"></script>
+    <script src="CIS%20521%20Homework%201%20Python%20Skills%20_files/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $("#homework").addClass("active");
+        
+      });
+    </script>
+  
+
+</body></html>

@@ -1,0 +1,16 @@
+Utility Function
+Contraction
+Chain Rule to Join Distribution
+Markov Property
+Stationary Process
+Dynamic Bayesian Model
+n-gram language models (star)
+Locally structured (sparse) system
+Parametric vs. Nonparametric Models
+Bag-of-Words model
+Activation Functions
+
+RNNs
+Backpropagation
+Jurafsky Martin Text Chapter 6
+Word2Vec

@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIS 521 Homework 3 "Informed Search"</title>
+
+    <!-- Mathjax -->
+    <script type="text/x-mathjax-config;executed=true">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          processEscapes: true
+        }
+      });
+    </script>
+    <script src="CIS%20521%20Homework%203%20Informed%20Search%20_files/MathJax.js" id="">
+    </script>
+    <script type="text/javascript" charset="utf-8" src="CIS%20521%20Homework%203%20Informed%20Search%20_files/MathJaxLocal.js">
+    </script>
+
+    <!-- CSS -->
+    <link href="CIS%20521%20Homework%203%20Informed%20Search%20_files/bootstrap.min.css" rel="stylesheet">
+
+    <link href="CIS%20521%20Homework%203%20Informed%20Search%20_files/syntax.css" rel="stylesheet">
+
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+<style>
+/* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
+.flip-card {
+  background-color: transparent;
+  width: 300px;
+  height: 200px;
+  border: 1px solid #f1f1f1;
+  perspective: 1000px; /* Remove this if you don't want the 3D effect */
+}
+
+/* This container is needed to position the front and back side */
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
+}
+
+/* Style the front side (fallback if image is missing) */
+.flip-card-front {
+  background-color: #bbb;
+  color: black;
+}
+
+/* Style the back side */
+.flip-card-back {
+  background-color: dodgerblue;
+  color: white;
+  transform: rotateY(180deg);
+}
+</style>
+  <style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1px; bottom: 2px; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style><style type="text/css">.MathJax_Display {text-align: center; margin: 1em 0em; position: relative; display: block!important; text-indent: 0; max-width: none; max-height: none; min-width: 0; min-height: 0; width: 100%}
+.MathJax .merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MathJax .MJX-monospace {font-family: monospace}
+.MathJax .MJX-sans-serif {font-family: sans-serif}
+#MathJax_Tooltip {background-color: InfoBackground; color: InfoText; border: 1px solid black; box-shadow: 2px 2px 5px #AAAAAA; -webkit-box-shadow: 2px 2px 5px #AAAAAA; -moz-box-shadow: 2px 2px 5px #AAAAAA; -khtml-box-shadow: 2px 2px 5px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true'); padding: 3px 4px; z-index: 401; position: absolute; left: 0; top: 0; width: auto; height: auto; display: none}
+.MathJax {display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 100%; font-size-adjust: none; text-indent: 0; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0; min-height: 0; border: 0; padding: 0; margin: 0}
+.MathJax:focus, body :focus .MathJax {display: inline-table}
+.MathJax.MathJax_FullWidth {text-align: center; display: table-cell!important; width: 10000em!important}
+.MathJax img, .MathJax nobr, .MathJax a {border: 0; padding: 0; margin: 0; max-width: none; max-height: none; min-width: 0; min-height: 0; vertical-align: 0; line-height: normal; text-decoration: none}
+img.MathJax_strut {border: 0!important; padding: 0!important; margin: 0!important; vertical-align: 0!important}
+.MathJax span {display: inline; position: static; border: 0; padding: 0; margin: 0; vertical-align: 0; line-height: normal; text-decoration: none}
+.MathJax nobr {white-space: nowrap!important}
+.MathJax img {display: inline!important; float: none!important}
+.MathJax * {transition: none; -webkit-transition: none; -moz-transition: none; -ms-transition: none; -o-transition: none}
+.MathJax_Processing {visibility: hidden; position: fixed; width: 0; height: 0; overflow: hidden}
+.MathJax_Processed {display: none!important}
+.MathJax_ExBox {display: block!important; overflow: hidden; width: 1px; height: 60ex; min-height: 0; max-height: none}
+.MathJax .MathJax_EmBox {display: block!important; overflow: hidden; width: 1px; height: 60em; min-height: 0; max-height: none}
+.MathJax_LineBox {display: table!important}
+.MathJax_LineBox span {display: table-cell!important; width: 10000em!important; min-width: 0; max-width: none; padding: 0; border: 0; margin: 0}
+.MathJax .MathJax_HitBox {cursor: text; background: white; opacity: 0; filter: alpha(opacity=0)}
+.MathJax .MathJax_HitBox * {filter: none; opacity: 1; background: transparent}
+#MathJax_Tooltip * {filter: none; opacity: 1; background: transparent}
+@font-face {font-family: MathJax_Main; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/woff/MathJax_Main-Regular.woff?V=2.7.1') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/otf/MathJax_Main-Regular.otf?V=2.7.1') format('opentype')}
+@font-face {font-family: MathJax_Main; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/woff/MathJax_Main-Bold.woff?V=2.7.1') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/otf/MathJax_Main-Bold.otf?V=2.7.1') format('opentype'); font-weight: bold}
+@font-face {font-family: MathJax_Main; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/woff/MathJax_Main-Italic.woff?V=2.7.1') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/otf/MathJax_Main-Italic.otf?V=2.7.1') format('opentype'); font-style: italic}
+@font-face {font-family: MathJax_Math; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/woff/MathJax_Math-Italic.woff?V=2.7.1') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/otf/MathJax_Math-Italic.otf?V=2.7.1') format('opentype'); font-style: italic}
+@font-face {font-family: MathJax_Caligraphic; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/woff/MathJax_Caligraphic-Regular.woff?V=2.7.1') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/otf/MathJax_Caligraphic-Regular.otf?V=2.7.1') format('opentype')}
+@font-face {font-family: MathJax_Size1; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/woff/MathJax_Size1-Regular.woff?V=2.7.1') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/otf/MathJax_Size1-Regular.otf?V=2.7.1') format('opentype')}
+@font-face {font-family: MathJax_Size2; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/woff/MathJax_Size2-Regular.woff?V=2.7.1') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/otf/MathJax_Size2-Regular.otf?V=2.7.1') format('opentype')}
+@font-face {font-family: MathJax_Size3; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/woff/MathJax_Size3-Regular.woff?V=2.7.1') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/otf/MathJax_Size3-Regular.otf?V=2.7.1') format('opentype')}
+@font-face {font-family: MathJax_Size4; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/woff/MathJax_Size4-Regular.woff?V=2.7.1') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/fonts/HTML-CSS/TeX/otf/MathJax_Size4-Regular.otf?V=2.7.1') format('opentype')}
+.MathJax .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style></head>
+<body><div style="visibility: hidden; overflow: hidden; position: absolute; top: 0px; height: 1px; width: auto; padding: 0px; border: 0px none; margin: 0px; text-align: left; text-indent: 0px; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal;"><div id="MathJax_Hidden"></div></div><div id="MathJax_Message" style="display: none;"></div>
+    <a class="sr-only" href="#content">Skip to main content</a>
+
+    <!-- Docs master nav -->
+    <header class="navbar navbar-static-top navbar-default" role="banner">
+      <div class="container">
+        <div class="row">
+        <div class="navbar-header">
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <ul class="nav navbar-nav">
+            <div class="hidden-sm hidden-xs"><li id="main-page"><a href="https://artificial-intelligence-class.org/index.html" class="navbar-brand">CIS 521 - Artificial Intelligence</a></li></div>
+            <div class="visible-sm visible-xs"><li id="main-page"><a href="https://artificial-intelligence-class.org/index.html" class="navbar-brand">CIS 521</a></li></div>
+          </ul>
+        </div>
+        <nav class="collapse navbar-collapse" role="navigation">
+          <ul class="nav navbar-nav">
+            <li id="homework" class="active">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">Homework<span class="caret"></span></a>
+              <ol class="dropdown-menu">
+                <li><a href="https://artificial-intelligence-class.org/homeworks/python-skills/python-skills.html">HW1: Python Skills</a></li>
+                <li><a href="https://artificial-intelligence-class.org/homeworks/uninformed-search/uninformed-search.html">HW2: Uninformed Search</a></li>
+                <!--
+                <li><a href="/homeworks/python-skills/python-skills.html">HW1: Python Skills</a></li>
+                <li><a href="/homeworks/uninformed-search/uninformed-search.html">HW2: Uninformed Search</a></li>
+                -->
+                <li><a href="https://artificial-intelligence-class.org/homeworks/informed-search/informed-search.html">HW3: Informed Search</a>
+                </li><li><a href="https://artificial-intelligence-class.org/homeworks/adversarial-search/adversarial-search.html">HW4: Games and Adversarial Search</a>
+                </li><li><a href="https://artificial-intelligence-class.org/homeworks/sudoku/sudoku.html">HW5: Sudoku</a>
+                </li><li><a href="https://artificial-intelligence-class.org/homeworks/markov-decision-processes/markov-decision-processes.html">HW6: MDPs and Gridworld </a></li>
+                <li><a href="https://artificial-intelligence-class.org/homeworks/reinforcement-learning/reinforcement-learning.html">HW7: Reinforcement Learning</a></li>
+                <li><a href="https://artificial-intelligence-class.org/homeworks/language-models/language-models.html">HW8: Language Models</a></li>
+                <li><a href="https://artificial-intelligence-class.org/homeworks/perceptrons/perceptrons.html">HW9: Perceptrons</a></li>
+                <li><a href="https://artificial-intelligence-class.org/homeworks/large-LMs/large-LMs.html">HW10: Large Language Models</a></li> 
+                <li><a href="https://artificial-intelligence-class.org/r2d2_assignments/22fall/hw0/hw0.html">EC0: Use Python to Control R2D2</a></li>
+<!--                
+                <li><a href="/r2d2_assignments/20fall/hw0/hw0.html">EC0: Use Python to Control R2D2</a></li>
+                <li><a href="/r2d2_assignments/20fall/hw0/sensor-pack-setup.html">EC0: R2D2 Sensor Pack Setup Instructions</a></li>
+                <li><a href="/r2d2_assignments/20fall/hw1/hw1.html">EC1: R2D2 as an Intelligent Agent</a></li>
+                <li><a href="/r2d2_assignments/20fall/hw2/hw2.html">EC2: Robot Navigation</a></li>
+                
+                <li><a href="/r2d2_assignments/20fall/hw3/hw3.html">EC3: R2-D2 Battle</a></li>
+                <li><a href="/r2d2_assignments/20fall/hw4/hw4.html">EC4: R2-D2 Face & Mask Detector </a></li>
+                <li><a href="/r2d2_assignments/20fall/hw5/hw5.html">EC5: R2-D2 Intent Detection </a></li>
+!-->
+              </ol>
+            </li><li id="lectures"><a href="https://artificial-intelligence-class.org/schedule.html#now">Schedule</a></li>
+            <li id="recordings"><a href="https://artificial-intelligence-class.org/modules.html#now">Recordings</a></li>
+            <li id="staff"><a href="https://artificial-intelligence-class.org/staff.html">Staff</a></li>
+          </ul>
+        </nav>
+      </div>
+      </div>
+    </header>
+
+    <div class="container">
+      
+      <div class="row">
+        <div class="col-sm-2 hidden-sm hidden-xs">
+          <a href="https://www.explainxkcd.com/wiki/index.php/1002:_Game_AIs"> 
+          <img src="CIS%20521%20Homework%203%20Informed%20Search%20_files/games.png" class="img-responsive img-rounded" alt="">
+          </a> 
+          <span class="text-muted"><i>Difficulty of Various Games For Computers</i></span>
+
+        </div>
+
+        <div class="col-sm-10">
+          <!-- Check whether the assignment is ready to release -->
+
+<!-- End of check whether the assignment is up to date -->
+
+<!-- Check whether the assignment is up to date -->
+
+<!-- End of check whether the assignment is up to date -->
+
+<div class="alert alert-info">
+This assignment is due on Wednesday, September 28, 2022 before 11:59PM. 
+</div>
+
+<div class="alert alert-info">
+You can download the materials for this assignment here:
+<ul>
+
+<li><a href="https://artificial-intelligence-class.org/homeworks/informed-search/informed_search.py">skeleton file</a></li>
+
+<li><a href="https://artificial-intelligence-class.org/homeworks/informed-search/tile_puzzle_gui.py">Tile Puzzle GUI</a></li>
+
+<li><a href="https://artificial-intelligence-class.org/homeworks/informed-search/grid_navigation_gui.py">Grid Navigation GUI</a></li>
+
+<li><a href="https://artificial-intelligence-class.org/homeworks/informed-search/scene_simple.txt">simple scene</a></li>
+
+<li><a href="https://artificial-intelligence-class.org/homeworks/informed-search/scene_barrier.txt">barrier scene</a></li>
+
+<li><a href="https://artificial-intelligence-class.org/homeworks/informed-search/scene_random.txt">random 50x50 scene</a></li>
+
+</ul>
+</div>
+
+<h1 id="homework-3-informed-search-100-points">Homework 3: Informed Search [100 points]</h1>
+
+<h2 id="instructions">Instructions</h2>
+
+<p>In this assignment, you will explore a number of games and puzzles from the perspectives of informed and adversarial search.</p>
+
+<p>A skeleton file <a href="https://artificial-intelligence-class.org/homeworks/informed-search/informed_search.py">informed-search.py</a>
+ containing empty definitions for each question has been provided. Since
+ portions of this assignment will be graded automatically, none of the 
+names or function signatures in this file should be modified. However, 
+you are free to introduce additional variables or functions if needed.</p>
+
+<p>You may import definitions from any standard Python library, and are 
+encouraged to do so in case you find yourself reinventing the wheel. If 
+you are unsure where to start, consider taking a look at the data 
+structures and functions defined in the <code class="language-plaintext highlighter-rouge">collections</code>, <code class="language-plaintext highlighter-rouge">itertools</code>, <code class="language-plaintext highlighter-rouge">queue</code>, and <code class="language-plaintext highlighter-rouge">random</code> modules.</p>
+
+<p>You will find that in addition to a problem specification, most 
+programming questions also include a pair of examples from the Python 
+interpreter. These are meant to illustrate typical use cases, and should
+ not be taken as comprehensive test suites.</p>
+
+<p>You are strongly encouraged to follow the Python style guidelines set forth in <a href="http://legacy.python.org/dev/peps/pep-0008/">PEP 8</a>, which was written in part by the creator of Python. However, your code will not be graded for style.</p>
+
+<p>Once you have completed the assignment, you should submit your file on <a href="https://www.gradescope.com/courses/305169">Gradescope</a>. You may submit as many times as you would like before the deadline, but only the last submission will be saved.</p>
+
+<h2 id="1-tile-puzzle-55-points">1. Tile Puzzle [55 points]</h2>
+
+<p>Recall from class that the Eight Puzzle consists of a <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-1-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mn&gt;3&lt;/mn&gt;&lt;mo&gt;&amp;#x00D7;&lt;/mo&gt;&lt;mn&gt;3&lt;/mn&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-1" style="width: 2.682em; display: inline-block;"><span style="display: inline-block; position: relative; width: 2.202em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.359em, 1002.16em, 2.403em, -1000em); top: -2.202em; left: 0em;"><span class="mrow" id="MathJax-Span-2"><span class="mn" id="MathJax-Span-3" style="font-family: MathJax_Main;">3</span><span class="mo" id="MathJax-Span-4" style="font-family: MathJax_Main; padding-left: 0.222em;">×</span><span class="mn" id="MathJax-Span-5" style="font-family: MathJax_Main; padding-left: 0.222em;">3</span></span><span style="display: inline-block; width: 0px; height: 2.202em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.098em; border-left: 0px solid; width: 0px; height: 0.967em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>3</mn><mo>×</mo><mn>3</mn></math></span></span><script type="math/tex" id="MathJax-Element-1">3 \times 3</script>
+ board of sliding tiles with a single empty space. For each 
+configuration, the only possible moves are to swap the empty tile with 
+one of its neighboring tiles. The goal state for the puzzle consists of 
+tiles 1-3 in the top row, tiles 4-6 in the middle row, and tiles 7 and 8
+ in the bottom row, with the empty space in the lower-right corner.</p>
+
+<p>In this section, you will develop two solvers for a generalized 
+version of the Eight Puzzle, in which the board can have any number of 
+rows and columns. We have suggested an approach similar to the one used 
+to create a Lights Out solver in Homework 2, and indeed, you may find 
+that this pattern can be abstracted to cover a wide range of puzzles. If
+ you wish to use the provided GUI for testing, described in more detail 
+at the end of the section, then your implementation must adhere to the 
+recommended interface. However, this is not required, and no penalty 
+will imposed for using a different approach.</p>
+
+<p>A natural representation for this puzzle is a two-dimensional list of integer values between <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-2-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mn&gt;0&lt;/mn&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-6" style="width: 0.598em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.476em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.358em, 1000.44em, 2.403em, -1000em); top: -2.202em; left: 0em;"><span class="mrow" id="MathJax-Span-7"><span class="mn" id="MathJax-Span-8" style="font-family: MathJax_Main;">0</span></span><span style="display: inline-block; width: 0px; height: 2.202em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.098em; border-left: 0px solid; width: 0px; height: 0.968em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>0</mn></math></span></span><script type="math/tex" id="MathJax-Element-2">0</script> and <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-3-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;mo&gt;&amp;#x22C5;&lt;/mo&gt;&lt;mi&gt;c&lt;/mi&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-9" style="width: 4.051em; display: inline-block;"><span style="display: inline-block; position: relative; width: 3.333em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.417em, 1003.26em, 2.522em, -1000em); top: -2.262em; left: 0em;"><span class="mrow" id="MathJax-Span-10"><span class="mi" id="MathJax-Span-11" style="font-family: MathJax_Math; font-style: italic;">r</span><span class="mo" id="MathJax-Span-12" style="font-family: MathJax_Main; padding-left: 0.222em;">⋅</span><span class="mi" id="MathJax-Span-13" style="font-family: MathJax_Math; font-style: italic; padding-left: 0.222em;">c</span><span class="mo" id="MathJax-Span-14" style="font-family: MathJax_Main; padding-left: 0.222em;">−</span><span class="mn" id="MathJax-Span-15" style="font-family: MathJax_Main; padding-left: 0.222em;">1</span></span><span style="display: inline-block; width: 0px; height: 2.262em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.17em; border-left: 0px solid; width: 0px; height: 1.04em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi><mo>⋅</mo><mi>c</mi><mo>−</mo><mn>1</mn></math></span></span><script type="math/tex" id="MathJax-Element-3">r \cdot c - 1</script> (inclusive), where <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-4-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-16" style="width: 0.598em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.476em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.641em, 1000.46em, 2.451em, -1000em); top: -2.262em; left: 0em;"><span class="mrow" id="MathJax-Span-17"><span class="mi" id="MathJax-Span-18" style="font-family: MathJax_Math; font-style: italic;">r</span></span><span style="display: inline-block; width: 0px; height: 2.262em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.085em; border-left: 0px solid; width: 0px; height: 0.686em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi></math></span></span><script type="math/tex" id="MathJax-Element-4">r</script> and <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-5-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;c&lt;/mi&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-19" style="width: 0.539em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.417em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.641em, 1000.41em, 2.451em, -1000em); top: -2.262em; left: 0em;"><span class="mrow" id="MathJax-Span-20"><span class="mi" id="MathJax-Span-21" style="font-family: MathJax_Math; font-style: italic;">c</span></span><span style="display: inline-block; width: 0px; height: 2.262em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.085em; border-left: 0px solid; width: 0px; height: 0.686em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>c</mi></math></span></span><script type="math/tex" id="MathJax-Element-5">c</script> are the number of rows and columns in the board, respectively. In this problem, we will adhere to the convention that the <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-6-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mn&gt;0&lt;/mn&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-22" style="width: 0.598em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.476em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.358em, 1000.44em, 2.403em, -1000em); top: -2.202em; left: 0em;"><span class="mrow" id="MathJax-Span-23"><span class="mn" id="MathJax-Span-24" style="font-family: MathJax_Main;">0</span></span><span style="display: inline-block; width: 0px; height: 2.202em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.098em; border-left: 0px solid; width: 0px; height: 0.968em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>0</mn></math></span></span><script type="math/tex" id="MathJax-Element-6">0</script>-tile represents the empty space.</p>
+
+<ol>
+  <li>
+    <p><strong>[0 points]</strong> In the <code class="language-plaintext highlighter-rouge">TilePuzzle</code> class, write an initialization method <code class="language-plaintext highlighter-rouge">__init__(self, board)</code>
+ that stores an input board of this form described above for future use.
+ You additionally may wish to store the dimensions of the board as 
+separate internal variables, as well as the location of the empty tile.</p>
+  </li>
+  <li>
+    <p><strong>[0 points]</strong> <em>Suggested infrastructure.</em></p>
+
+    <p>In the <code class="language-plaintext highlighter-rouge">TilePuzzle</code> class, write a method <code class="language-plaintext highlighter-rouge">get_board(self)</code> that returns the internal representation of the board stored during initialization.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">TilePuzzle</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="p">.</span><span class="n">get_board</span><span class="p">()</span>
+ <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">TilePuzzle</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]])</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="p">.</span><span class="n">get_board</span><span class="p">()</span>
+ <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span>
+</code></pre></div>    </div>
+
+    <p>Write a top-level function <code class="language-plaintext highlighter-rouge">create_tile_puzzle(rows, cols)</code> that returns a new <code class="language-plaintext highlighter-rouge">TilePuzzle</code> of the specified dimensions, initialized to the starting configuration. Tiles <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-7-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-25" style="width: 0.598em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.476em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.358em, 1000.4em, 2.381em, -1000em); top: -2.202em; left: 0em;"><span class="mrow" id="MathJax-Span-26"><span class="mn" id="MathJax-Span-27" style="font-family: MathJax_Main;">1</span></span><span style="display: inline-block; width: 0px; height: 2.202em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.071em; border-left: 0px solid; width: 0px; height: 0.942em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>1</mn></math></span></span><script type="math/tex" id="MathJax-Element-7">1</script> through <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-8-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;mo&gt;&amp;#x22C5;&lt;/mo&gt;&lt;mi&gt;c&lt;/mi&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-28" style="width: 4.051em; display: inline-block;"><span style="display: inline-block; position: relative; width: 3.333em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.417em, 1003.26em, 2.522em, -1000em); top: -2.262em; left: 0em;"><span class="mrow" id="MathJax-Span-29"><span class="mi" id="MathJax-Span-30" style="font-family: MathJax_Math; font-style: italic;">r</span><span class="mo" id="MathJax-Span-31" style="font-family: MathJax_Main; padding-left: 0.222em;">⋅</span><span class="mi" id="MathJax-Span-32" style="font-family: MathJax_Math; font-style: italic; padding-left: 0.222em;">c</span><span class="mo" id="MathJax-Span-33" style="font-family: MathJax_Main; padding-left: 0.222em;">−</span><span class="mn" id="MathJax-Span-34" style="font-family: MathJax_Main; padding-left: 0.222em;">1</span></span><span style="display: inline-block; width: 0px; height: 2.262em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.17em; border-left: 0px solid; width: 0px; height: 1.04em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi><mo>⋅</mo><mi>c</mi><mo>−</mo><mn>1</mn></math></span></span><script type="math/tex" id="MathJax-Element-8">r \cdot c - 1</script> should be arranged starting from the top-left corner in row-major order, and tile <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-9-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mn&gt;0&lt;/mn&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-35" style="width: 0.598em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.476em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.358em, 1000.44em, 2.403em, -1000em); top: -2.202em; left: 0em;"><span class="mrow" id="MathJax-Span-36"><span class="mn" id="MathJax-Span-37" style="font-family: MathJax_Main;">0</span></span><span style="display: inline-block; width: 0px; height: 2.202em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.098em; border-left: 0px solid; width: 0px; height: 0.968em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>0</mn></math></span></span><script type="math/tex" id="MathJax-Element-9">0</script> should be located in the lower-right corner.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">create_tile_puzzle</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="p">.</span><span class="n">get_board</span><span class="p">()</span>
+ <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">create_tile_puzzle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="p">.</span><span class="n">get_board</span><span class="p">()</span>
+ <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
+</code></pre></div>    </div>
+
+    <p>In the <code class="language-plaintext highlighter-rouge">TilePuzzle</code> class, write a method <code class="language-plaintext highlighter-rouge">perform_move(self, direction)</code>
+ that attempts to swap the empty tile with its neighbor in the indicated
+ direction, where valid inputs are limited to the strings <code class="language-plaintext highlighter-rouge">"up"</code>, <code class="language-plaintext highlighter-rouge">"down"</code>, <code class="language-plaintext highlighter-rouge">"left"</code>, and <code class="language-plaintext highlighter-rouge">"right"</code>.
+ If the given direction is invalid, or if the move cannot be performed, 
+then no changes to the puzzle should be made. The method should return a
+ Boolean value indicating whether the move was successful.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">create_tile_puzzle</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="p">.</span><span class="n">perform_move</span><span class="p">(</span><span class="s">"up"</span><span class="p">)</span>
+ <span class="bp">True</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="p">.</span><span class="n">get_board</span><span class="p">()</span>
+ <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">]]</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">create_tile_puzzle</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="p">.</span><span class="n">perform_move</span><span class="p">(</span><span class="s">"down"</span><span class="p">)</span>
+ <span class="bp">False</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="p">.</span><span class="n">get_board</span><span class="p">()</span>
+ <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
+</code></pre></div>    </div>
+
+    <p>In the <code class="language-plaintext highlighter-rouge">TilePuzzle</code> class, write a method <code class="language-plaintext highlighter-rouge">scramble(self, num_moves)</code> which scrambles the puzzle by calling <code class="language-plaintext highlighter-rouge">perform_move(self, direction)</code>
+ the indicated number of times, each time with a random direction. This 
+method of scrambling guarantees that the resulting configuration will be
+ solvable, which may not be true if the tiles are randomly permuted. <em>Hint:</em> The <code class="language-plaintext highlighter-rouge">random</code> module contains a function <code class="language-plaintext highlighter-rouge">random.choice(seq)</code> which returns a random element from its input sequence.</p>
+
+    <p>In the <code class="language-plaintext highlighter-rouge">TilePuzzle</code> class, write a method <code class="language-plaintext highlighter-rouge">is_solved(self)</code> that returns whether the board is in its starting configuration.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">TilePuzzle</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="p">.</span><span class="n">is_solved</span><span class="p">()</span>
+ <span class="bp">True</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">TilePuzzle</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]])</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="p">.</span><span class="n">is_solved</span><span class="p">()</span>
+ <span class="bp">False</span>
+</code></pre></div>    </div>
+
+    <p>In the <code class="language-plaintext highlighter-rouge">TilePuzzle</code> class, write a method <code class="language-plaintext highlighter-rouge">copy(self)</code> that returns a new <code class="language-plaintext highlighter-rouge">TilePuzzle</code> object initialized with a <strong>deep copy</strong> of the current board. Changes made to the original puzzle should not be reflected in the copy, and vice versa.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">create_tile_puzzle</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="n">copy</span><span class="p">()</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="p">.</span><span class="n">get_board</span><span class="p">()</span> <span class="o">==</span> <span class="n">p2</span><span class="p">.</span><span class="n">get_board</span><span class="p">()</span>
+ <span class="bp">True</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">create_tile_puzzle</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="n">copy</span><span class="p">()</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="p">.</span><span class="n">perform_move</span><span class="p">(</span><span class="s">"left"</span><span class="p">)</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="p">.</span><span class="n">get_board</span><span class="p">()</span> <span class="o">==</span> <span class="n">p2</span><span class="p">.</span><span class="n">get_board</span><span class="p">()</span>
+ <span class="bp">False</span>
+</code></pre></div>    </div>
+
+    <p>In the <code class="language-plaintext highlighter-rouge">TilePuzzle</code> class, write a method <code class="language-plaintext highlighter-rouge">successors(self)</code>
+ that yields all successors of the puzzle as (direction, new-puzzle) 
+tuples. The second element of each successor should be a new <code class="language-plaintext highlighter-rouge">TilePuzzle</code>
+ object whose board is the result of applying the corresponding move to 
+the current board. The successors may be generated in whichever order is
+ most convenient, as long as successors corresponding to unsuccessful 
+moves are not included in the output.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">create_tile_puzzle</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">move</span><span class="p">,</span> <span class="n">new_p</span> <span class="ow">in</span> <span class="n">p</span><span class="p">.</span><span class="n">successors</span><span class="p">():</span>
+ <span class="p">...</span>     <span class="k">print</span><span class="p">(</span><span class="n">move</span><span class="p">,</span> <span class="n">new_p</span><span class="p">.</span><span class="n">get_board</span><span class="p">())</span>
+ <span class="p">...</span>
+ <span class="n">up</span>   <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">]]</span>
+ <span class="n">left</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">]]</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">]]</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">TilePuzzle</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">move</span><span class="p">,</span> <span class="n">new_p</span> <span class="ow">in</span> <span class="n">p</span><span class="p">.</span><span class="n">successors</span><span class="p">():</span>
+ <span class="p">...</span>     <span class="k">print</span><span class="p">(</span><span class="n">move</span><span class="p">,</span> <span class="n">new_p</span><span class="p">.</span><span class="n">get_board</span><span class="p">())</span>
+ <span class="p">...</span>
+ <span class="n">up</span>    <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]]</span>
+ <span class="n">down</span>  <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">]]</span>
+ <span class="n">left</span>  <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]]</span>
+ <span class="n">right</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]]</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>[25 points]</strong> In the <code class="language-plaintext highlighter-rouge">TilePuzzle</code> class, write a method <code class="language-plaintext highlighter-rouge">find_solutions_iddfs(self)</code> that yields all optimal solutions to the current board, represented as lists of moves. Valid moves include the four strings <code class="language-plaintext highlighter-rouge">"up"</code>, <code class="language-plaintext highlighter-rouge">"down"</code>, <code class="language-plaintext highlighter-rouge">"left"</code>, and <code class="language-plaintext highlighter-rouge">"right"</code>,
+ where each move indicates a single swap of the empty tile with its 
+neighbor in the indicated direction. Your solver should be implemented 
+using an iterative deepening depth-first search (IDDFS), consisting of a
+ series of depth-first searches limited at first to <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-10-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mn&gt;0&lt;/mn&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-38" style="width: 0.598em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.476em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.358em, 1000.44em, 2.403em, -1000em); top: -2.202em; left: 0em;"><span class="mrow" id="MathJax-Span-39"><span class="mn" id="MathJax-Span-40" style="font-family: MathJax_Main;">0</span></span><span style="display: inline-block; width: 0px; height: 2.202em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.098em; border-left: 0px solid; width: 0px; height: 0.968em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>0</mn></math></span></span><script type="math/tex" id="MathJax-Element-10">0</script> moves, then <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-11-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-41" style="width: 0.598em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.476em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.358em, 1000.4em, 2.381em, -1000em); top: -2.202em; left: 0em;"><span class="mrow" id="MathJax-Span-42"><span class="mn" id="MathJax-Span-43" style="font-family: MathJax_Main;">1</span></span><span style="display: inline-block; width: 0px; height: 2.202em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.071em; border-left: 0px solid; width: 0px; height: 0.942em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>1</mn></math></span></span><script type="math/tex" id="MathJax-Element-11">1</script> move, then <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-12-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-44" style="width: 0.598em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.476em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.358em, 1000.43em, 2.381em, -1000em); top: -2.202em; left: 0em;"><span class="mrow" id="MathJax-Span-45"><span class="mn" id="MathJax-Span-46" style="font-family: MathJax_Main;">2</span></span><span style="display: inline-block; width: 0px; height: 2.202em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.071em; border-left: 0px solid; width: 0px; height: 0.942em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>2</mn></math></span></span><script type="math/tex" id="MathJax-Element-12">2</script>
+ moves, and so on. You may assume that the board is solvable. The order 
+in which the solutions are produced is unimportant, as long as all 
+optimal solutions are present in the output.</p>
+
+    <p><em>Hint: This method is most easily implemented using recursion. First define a recursive helper method <code class="language-plaintext highlighter-rouge">iddfs_helper(self, limit, moves)</code> that yields all solutions to the current board of length no more than <code class="language-plaintext highlighter-rouge">limit</code>
+ which are continuations of the provided move list. Your main method 
+will then call this helper function in a loop, increasing the depth 
+limit by one at each iteration, until one or more solutions have been 
+found. Note that this helper function should find all solutions within 
+the step <code class="language-plaintext highlighter-rouge">limit</code> based on the <code class="language-plaintext highlighter-rouge">moves</code> already taken.</em></p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">]]</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">TilePuzzle</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">solutions</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="n">find_solutions_iddfs</span><span class="p">()</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">solutions</span><span class="p">)</span>
+ <span class="p">[</span><span class="s">'up'</span><span class="p">,</span> <span class="s">'right'</span><span class="p">,</span> <span class="s">'right'</span><span class="p">,</span> <span class="s">'down'</span><span class="p">,</span> <span class="s">'down'</span><span class="p">]</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">8</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">5</span><span class="p">]]</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">TilePuzzle</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">find_solutions_iddfs</span><span class="p">())</span>
+ <span class="p">[[</span><span class="s">'down'</span><span class="p">,</span> <span class="s">'right'</span><span class="p">,</span> <span class="s">'up'</span><span class="p">,</span> <span class="s">'left'</span><span class="p">,</span> <span class="s">'down'</span><span class="p">,</span>
+  <span class="s">'right'</span><span class="p">],</span> <span class="p">[</span><span class="s">'right'</span><span class="p">,</span> <span class="s">'down'</span><span class="p">,</span> <span class="s">'left'</span><span class="p">,</span>
+  <span class="s">'up'</span><span class="p">,</span> <span class="s">'right'</span><span class="p">,</span> <span class="s">'down'</span><span class="p">]]</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>[30 points]</strong> In the <code class="language-plaintext highlighter-rouge">TilePuzzle</code> class, write a method <code class="language-plaintext highlighter-rouge">find_solution_a_star(self)</code>
+ that returns an optimal solution to the current board, represented as a
+ list of direction strings. If multiple optimal solutions exist, any of 
+them may be returned. Your solver should be implemented as an A* search 
+using the Manhattan distance heuristic, which is reviewed below. You may
+ assume that the board is solvable. During your search, you should take 
+care not to add positions to the queue that have already been visited. 
+It is recommended that you use the <code class="language-plaintext highlighter-rouge">PriorityQueue</code> class from the <code class="language-plaintext highlighter-rouge">queue</code> module.</p>
+
+    <p>Recall that the Manhattan distance between two locations <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-13-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/msub&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;c&lt;/mi&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/msub&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-47" style="width: 3.574em; display: inline-block;"><span style="display: inline-block; position: relative; width: 2.976em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.274em, 1002.88em, 2.631em, -1000em); top: -2.202em; left: 0em;"><span class="mrow" id="MathJax-Span-48"><span class="mo" id="MathJax-Span-49" style="font-family: MathJax_Main;">(</span><span class="msubsup" id="MathJax-Span-50"><span style="display: inline-block; position: relative; width: 0.88em; height: 0px;"><span style="position: absolute; clip: rect(3.368em, 1000.43em, 4.178em, -1000em); top: -3.988em; left: 0em;"><span class="mi" id="MathJax-Span-51" style="font-family: MathJax_Math; font-style: italic;">r</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span><span style="position: absolute; top: -3.838em; left: 0.451em;"><span class="mn" id="MathJax-Span-52" style="font-size: 70.7%; font-family: MathJax_Main;">1</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span></span></span><span class="mo" id="MathJax-Span-53" style="font-family: MathJax_Main;">,</span><span class="msubsup" id="MathJax-Span-54" style="padding-left: 0.167em;"><span style="display: inline-block; position: relative; width: 0.862em; height: 0px;"><span style="position: absolute; clip: rect(3.368em, 1000.43em, 4.178em, -1000em); top: -3.988em; left: 0em;"><span class="mi" id="MathJax-Span-55" style="font-family: MathJax_Math; font-style: italic;">c</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span><span style="position: absolute; top: -3.838em; left: 0.433em;"><span class="mn" id="MathJax-Span-56" style="font-size: 70.7%; font-family: MathJax_Main;">1</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span></span></span><span class="mo" id="MathJax-Span-57" style="font-family: MathJax_Main;">)</span></span><span style="display: inline-block; width: 0px; height: 2.202em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.371em; border-left: 0px solid; width: 0px; height: 1.343em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mo stretchy="false">(</mo><msub><mi>r</mi><mn>1</mn></msub><mo>,</mo><msub><mi>c</mi><mn>1</mn></msub><mo stretchy="false">)</mo></math></span></span><script type="math/tex" id="MathJax-Element-13">(r_1, c_1)</script> and <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-14-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/msub&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;c&lt;/mi&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/msub&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-58" style="width: 3.574em; display: inline-block;"><span style="display: inline-block; position: relative; width: 2.976em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.274em, 1002.88em, 2.631em, -1000em); top: -2.202em; left: 0em;"><span class="mrow" id="MathJax-Span-59"><span class="mo" id="MathJax-Span-60" style="font-family: MathJax_Main;">(</span><span class="msubsup" id="MathJax-Span-61"><span style="display: inline-block; position: relative; width: 0.88em; height: 0px;"><span style="position: absolute; clip: rect(3.368em, 1000.43em, 4.178em, -1000em); top: -3.988em; left: 0em;"><span class="mi" id="MathJax-Span-62" style="font-family: MathJax_Math; font-style: italic;">r</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span><span style="position: absolute; top: -3.838em; left: 0.451em;"><span class="mn" id="MathJax-Span-63" style="font-size: 70.7%; font-family: MathJax_Main;">2</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span></span></span><span class="mo" id="MathJax-Span-64" style="font-family: MathJax_Main;">,</span><span class="msubsup" id="MathJax-Span-65" style="padding-left: 0.167em;"><span style="display: inline-block; position: relative; width: 0.862em; height: 0px;"><span style="position: absolute; clip: rect(3.368em, 1000.43em, 4.178em, -1000em); top: -3.988em; left: 0em;"><span class="mi" id="MathJax-Span-66" style="font-family: MathJax_Math; font-style: italic;">c</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span><span style="position: absolute; top: -3.838em; left: 0.433em;"><span class="mn" id="MathJax-Span-67" style="font-size: 70.7%; font-family: MathJax_Main;">2</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span></span></span><span class="mo" id="MathJax-Span-68" style="font-family: MathJax_Main;">)</span></span><span style="display: inline-block; width: 0px; height: 2.202em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.371em; border-left: 0px solid; width: 0px; height: 1.343em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mo stretchy="false">(</mo><msub><mi>r</mi><mn>2</mn></msub><mo>,</mo><msub><mi>c</mi><mn>2</mn></msub><mo stretchy="false">)</mo></math></span></span><script type="math/tex" id="MathJax-Element-14">(r_2, c_2)</script> on a board is defined to be the sum of the componentwise distances: <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-15-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mo stretchy=&quot;false&quot;&gt;|&lt;/mo&gt;&lt;/mrow&gt;&lt;msub&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/msub&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/msub&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mo stretchy=&quot;false&quot;&gt;|&lt;/mo&gt;&lt;/mrow&gt;&lt;mo&gt;+&lt;/mo&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mo stretchy=&quot;false&quot;&gt;|&lt;/mo&gt;&lt;/mrow&gt;&lt;msub&gt;&lt;mi&gt;c&lt;/mi&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/msub&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;c&lt;/mi&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/msub&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mo stretchy=&quot;false&quot;&gt;|&lt;/mo&gt;&lt;/mrow&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-69" style="width: 9.943em; display: inline-block;"><span style="display: inline-block; position: relative; width: 8.274em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.274em, 1008.16em, 2.63em, -1000em); top: -2.202em; left: 0em;"><span class="mrow" id="MathJax-Span-70"><span class="texatom" id="MathJax-Span-71"><span class="mrow" id="MathJax-Span-72"><span class="mo" id="MathJax-Span-73" style="font-family: MathJax_Main;">|</span></span></span><span class="msubsup" id="MathJax-Span-74"><span style="display: inline-block; position: relative; width: 0.88em; height: 0px;"><span style="position: absolute; clip: rect(3.368em, 1000.43em, 4.178em, -1000em); top: -3.988em; left: 0em;"><span class="mi" id="MathJax-Span-75" style="font-family: MathJax_Math; font-style: italic;">r</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span><span style="position: absolute; top: -3.838em; left: 0.451em;"><span class="mn" id="MathJax-Span-76" style="font-size: 70.7%; font-family: MathJax_Main;">1</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span></span></span><span class="mo" id="MathJax-Span-77" style="font-family: MathJax_Main; padding-left: 0.222em;">−</span><span class="msubsup" id="MathJax-Span-78" style="padding-left: 0.222em;"><span style="display: inline-block; position: relative; width: 0.88em; height: 0px;"><span style="position: absolute; clip: rect(3.368em, 1000.43em, 4.178em, -1000em); top: -3.988em; left: 0em;"><span class="mi" id="MathJax-Span-79" style="font-family: MathJax_Math; font-style: italic;">r</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span><span style="position: absolute; top: -3.838em; left: 0.451em;"><span class="mn" id="MathJax-Span-80" style="font-size: 70.7%; font-family: MathJax_Main;">2</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span></span></span><span class="texatom" id="MathJax-Span-81"><span class="mrow" id="MathJax-Span-82"><span class="mo" id="MathJax-Span-83" style="font-family: MathJax_Main;">|</span></span></span><span class="mo" id="MathJax-Span-84" style="font-family: MathJax_Main; padding-left: 0.222em;">+</span><span class="texatom" id="MathJax-Span-85" style="padding-left: 0.222em;"><span class="mrow" id="MathJax-Span-86"><span class="mo" id="MathJax-Span-87" style="font-family: MathJax_Main;">|</span></span></span><span class="msubsup" id="MathJax-Span-88"><span style="display: inline-block; position: relative; width: 0.862em; height: 0px;"><span style="position: absolute; clip: rect(3.368em, 1000.43em, 4.178em, -1000em); top: -3.988em; left: 0em;"><span class="mi" id="MathJax-Span-89" style="font-family: MathJax_Math; font-style: italic;">c</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span><span style="position: absolute; top: -3.838em; left: 0.433em;"><span class="mn" id="MathJax-Span-90" style="font-size: 70.7%; font-family: MathJax_Main;">1</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span></span></span><span class="mo" id="MathJax-Span-91" style="font-family: MathJax_Main; padding-left: 0.222em;">−</span><span class="msubsup" id="MathJax-Span-92" style="padding-left: 0.222em;"><span style="display: inline-block; position: relative; width: 0.862em; height: 0px;"><span style="position: absolute; clip: rect(3.368em, 1000.43em, 4.178em, -1000em); top: -3.988em; left: 0em;"><span class="mi" id="MathJax-Span-93" style="font-family: MathJax_Math; font-style: italic;">c</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span><span style="position: absolute; top: -3.838em; left: 0.433em;"><span class="mn" id="MathJax-Span-94" style="font-size: 70.7%; font-family: MathJax_Main;">2</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span></span></span><span class="texatom" id="MathJax-Span-95"><span class="mrow" id="MathJax-Span-96"><span class="mo" id="MathJax-Span-97" style="font-family: MathJax_Main;">|</span></span></span></span><span style="display: inline-block; width: 0px; height: 2.202em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.37em; border-left: 0px solid; width: 0px; height: 1.342em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow class="MJX-TeXAtom-ORD"><mo stretchy="false">|</mo></mrow><msub><mi>r</mi><mn>1</mn></msub><mo>−</mo><msub><mi>r</mi><mn>2</mn></msub><mrow class="MJX-TeXAtom-ORD"><mo stretchy="false">|</mo></mrow><mo>+</mo><mrow class="MJX-TeXAtom-ORD"><mo stretchy="false">|</mo></mrow><msub><mi>c</mi><mn>1</mn></msub><mo>−</mo><msub><mi>c</mi><mn>2</mn></msub><mrow class="MJX-TeXAtom-ORD"><mo stretchy="false">|</mo></mrow></math></span></span><script type="math/tex" id="MathJax-Element-15">|r_1−r_2|+|c_1−c_2|</script>.
+ The Manhattan distance heuristic for an entire puzzle is then the sum 
+of the Manhattan distances between each tile and its solved location.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">]]</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">TilePuzzle</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="p">.</span><span class="n">find_solution_a_star</span><span class="p">()</span>
+ <span class="p">[</span><span class="s">'up'</span><span class="p">,</span> <span class="s">'right'</span><span class="p">,</span> <span class="s">'right'</span><span class="p">,</span> <span class="s">'down'</span><span class="p">,</span> <span class="s">'down'</span><span class="p">]</span>
+</code></pre></div>    </div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">]]</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">TilePuzzle</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="p">.</span><span class="n">find_solution_a_star</span><span class="p">()</span>
+ <span class="p">[</span><span class="s">'right'</span><span class="p">,</span> <span class="s">'down'</span><span class="p">,</span> <span class="s">'left'</span><span class="p">,</span> <span class="s">'left'</span><span class="p">,</span> <span class="s">'up'</span><span class="p">,</span>
+  <span class="s">'right'</span><span class="p">,</span> <span class="s">'down'</span><span class="p">,</span> <span class="s">'right'</span><span class="p">,</span> <span class="s">'up'</span><span class="p">,</span> <span class="s">'left'</span><span class="p">,</span>
+  <span class="s">'left'</span><span class="p">,</span> <span class="s">'down'</span><span class="p">,</span> <span class="s">'right'</span><span class="p">,</span> <span class="s">'right'</span><span class="p">]</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>If you implemented the suggested infrastructure described in this 
+section, you can play with an interactive version of the Tile Puzzle 
+using the provided GUI by running the following command:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 tile_puzzle_gui.py rows cols
+</code></pre></div></div>
+
+<p>The arguments <code class="language-plaintext highlighter-rouge">rows</code> and <code class="language-plaintext highlighter-rouge">cols</code> are positive integers designating the size of the puzzle.</p>
+
+<p>In the GUI, you can use the arrow keys to perform moves on the 
+puzzle, and can use the side menu to scramble or solve the puzzle. The 
+GUI is merely a wrapper around your implementations of the relevant 
+functions, and may therefore serve as a useful visual tool for 
+debugging.</p>
+
+<h2 id="2-grid-navigation-20-points">2. Grid Navigation [20 points]</h2>
+
+<p>In this section, you will investigate the problem of navigation on a 
+two-dimensional grid with obstacles. The goal is to produce the shortest
+ path between a provided pair of points, taking care to maneuver around 
+the obstacles as needed. Path length is measured in Euclidean distance. 
+Valid directions of movement include up, down, left, right, up-left, 
+up-right, down-left, and down-right.</p>
+
+<p>Your task is to write a function <code class="language-plaintext highlighter-rouge">find_path(start, goal, scene)</code>
+ which returns the shortest path from the start point to the goal point 
+that avoids traveling through the obstacles in the grid. For this 
+problem, points will be represented as two-element tuples of the form 
+(row, column), and scenes will be represented as two-dimensional lists 
+of Boolean values, with <code class="language-plaintext highlighter-rouge">False</code> values corresponding empty spaces and <code class="language-plaintext highlighter-rouge">True</code>
+ values corresponding to obstacles. Your output should be the list of 
+points in the path, and should explicitly include both the start point 
+and the goal point. Your implementation should consist of an <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-16-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msup&gt;&lt;mi&gt;A&lt;/mi&gt;&lt;mo&gt;&amp;#x2217;&lt;/mo&gt;&lt;/msup&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-98" style="width: 1.432em; display: inline-block;"><span style="display: inline-block; position: relative; width: 1.19em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.248em, 1001.19em, 2.321em, -1000em); top: -2.143em; left: 0em;"><span class="mrow" id="MathJax-Span-99"><span class="msubsup" id="MathJax-Span-100"><span style="display: inline-block; position: relative; width: 1.179em; height: 0px;"><span style="position: absolute; clip: rect(3.094em, 1000.73em, 4.167em, -1000em); top: -3.988em; left: 0em;"><span class="mi" id="MathJax-Span-101" style="font-family: MathJax_Math; font-style: italic;">A</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span><span style="position: absolute; top: -4.351em; left: 0.75em;"><span class="mo" id="MathJax-Span-102" style="font-size: 70.7%; font-family: MathJax_Main;">∗</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span></span></span></span><span style="display: inline-block; width: 0px; height: 2.143em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.071em; border-left: 0px solid; width: 0px; height: 1.002em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mi>A</mi><mo>∗</mo></msup></math></span></span><script type="math/tex" id="MathJax-Element-16">A^*</script>
+ search using the straight-line Euclidean distance heuristic. If 
+multiple optimal solutions exist, any of them may be returned. If no 
+optimal solutions exist, or if the start point or goal point lies on an 
+obstacle, you should return the sentinal value <code class="language-plaintext highlighter-rouge">None</code>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">scene</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">False</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">False</span><span class="p">],</span>
+<span class="p">...</span>          <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="bp">True</span> <span class="p">,</span> <span class="bp">False</span><span class="p">],</span>
+<span class="p">...</span>          <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">False</span><span class="p">]]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">find_path</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">scene</span><span class="p">)</span>
+<span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">scene</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">False</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">],</span>
+<span class="p">...</span>          <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">],</span>
+<span class="p">...</span>          <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">]]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">find_path</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">scene</span><span class="p">))</span>
+<span class="bp">None</span>
+</code></pre></div></div>
+
+<p>Once you have implemented your solution, you can visualize the paths 
+it produces using the provided GUI by running the following command:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 grid_navigation_gui.py scene_path
+</code></pre></div></div>
+
+<p>The argument <code class="language-plaintext highlighter-rouge">scene_path</code>
+ is a path to a scene file storing the layout of the target grid and 
+obstacles. We use the following format for textual scene representation:
+ <code class="language-plaintext highlighter-rouge">"."</code> characters correspond to empty spaces, and <code class="language-plaintext highlighter-rouge">"X"</code> characters correspond to obstacles.</p>
+
+<h2 id="3-linear-disk-movement-revisited-20-points">3. Linear Disk Movement, Revisited [20 points]</h2>
+
+<p>Recall the Linear Disk Movement section from Homework 2. The starting configuration of this puzzle is a row of <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-17-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;&amp;#x2113;&lt;/mi&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-103" style="width: 0.539em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.417em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.319em, 1000.4em, 2.401em, -1000em); top: -2.202em; left: 0em;"><span class="mrow" id="MathJax-Span-104"><span class="mi" id="MathJax-Span-105" style="font-family: MathJax_Main;">ℓ</span></span><span style="display: inline-block; width: 0px; height: 2.202em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.095em; border-left: 0px solid; width: 0px; height: 1.013em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>ℓ</mi></math></span></span><script type="math/tex" id="MathJax-Element-17">\ell</script> cells, with disks located on cells <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-18-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mn&gt;0&lt;/mn&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-106" style="width: 0.598em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.476em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.358em, 1000.44em, 2.403em, -1000em); top: -2.202em; left: 0em;"><span class="mrow" id="MathJax-Span-107"><span class="mn" id="MathJax-Span-108" style="font-family: MathJax_Main;">0</span></span><span style="display: inline-block; width: 0px; height: 2.202em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.098em; border-left: 0px solid; width: 0px; height: 0.968em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>0</mn></math></span></span><script type="math/tex" id="MathJax-Element-18">0</script> through <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-19-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;n&lt;/mi&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-109" style="width: 2.801em; display: inline-block;"><span style="display: inline-block; position: relative; width: 2.321em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.417em, 1002.25em, 2.522em, -1000em); top: -2.262em; left: 0em;"><span class="mrow" id="MathJax-Span-110"><span class="mi" id="MathJax-Span-111" style="font-family: MathJax_Math; font-style: italic;">n</span><span class="mo" id="MathJax-Span-112" style="font-family: MathJax_Main; padding-left: 0.222em;">−</span><span class="mn" id="MathJax-Span-113" style="font-family: MathJax_Main; padding-left: 0.222em;">1</span></span><span style="display: inline-block; width: 0px; height: 2.262em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.17em; border-left: 0px solid; width: 0px; height: 1.04em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi><mo>−</mo><mn>1</mn></math></span></span><script type="math/tex" id="MathJax-Element-19">n - 1</script>.
+ The goal is to move the disks to the end of the row using a constrained
+ set of actions. At each step, a disk can only be moved to an adjacent 
+empty cell, or to an empty cell two spaces away, provided another disk 
+is located on the intervening square.</p>
+
+<p>In a variant of the problem, the disks were distinct rather than 
+identical, and the goal state was amended to stipulate that the final 
+order of the disks should be the reverse of their initial order.</p>
+
+<p>Implement an improved version of the <code class="language-plaintext highlighter-rouge">solve_distinct_disks(length, n)</code> function from Homework 2 that uses an <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-20-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msup&gt;&lt;mi&gt;A&lt;/mi&gt;&lt;mo&gt;&amp;#x2217;&lt;/mo&gt;&lt;/msup&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-114" style="width: 1.432em; display: inline-block;"><span style="display: inline-block; position: relative; width: 1.19em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.248em, 1001.19em, 2.321em, -1000em); top: -2.143em; left: 0em;"><span class="mrow" id="MathJax-Span-115"><span class="msubsup" id="MathJax-Span-116"><span style="display: inline-block; position: relative; width: 1.179em; height: 0px;"><span style="position: absolute; clip: rect(3.094em, 1000.73em, 4.167em, -1000em); top: -3.988em; left: 0em;"><span class="mi" id="MathJax-Span-117" style="font-family: MathJax_Math; font-style: italic;">A</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span><span style="position: absolute; top: -4.351em; left: 0.75em;"><span class="mo" id="MathJax-Span-118" style="font-size: 70.7%; font-family: MathJax_Main;">∗</span><span style="display: inline-block; width: 0px; height: 3.988em;"></span></span></span></span></span><span style="display: inline-block; width: 0px; height: 2.143em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.071em; border-left: 0px solid; width: 0px; height: 1.002em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mi>A</mi><mo>∗</mo></msup></math></span></span><script type="math/tex" id="MathJax-Element-20">A^*</script>
+ search rather than an uninformed breadth-first search to find an 
+optimal solution. As before, the exact solution produced is not 
+important so long as it is of minimal length. You should devise a 
+heuristic which is admissible but informative enough to yield 
+significant improvements in performance.</p>
+
+<h2 id="4-feedback-5-points">4. Feedback [5 points]</h2>
+
+<ol>
+  <li>
+    <p><strong>[1 point]</strong> Approximately how many hours did you spend on this assignment?</p>
+  </li>
+  <li>
+    <p><strong>[2 points]</strong> Which aspects of this assignment did you find most challenging? Were there any significant stumbling blocks?</p>
+  </li>
+  <li>
+    <p><strong>[2 points]</strong>  Which aspects of this assignment did you like? Is there anything you would have changed?</p>
+  </li>
+</ol>
+
+        </div>
+      </div>
+      
+      </div>
+
+    <footer class="text-center text-muted">
+      <hr>
+      
+      Last updated September 22, 2022 15:38:02.<br>
+      The source code is on <a href="https://github.com/artificial-intelligence-class/artificial-intelligence-class.github.io">GitHub</a>.
+      
+    </footer>
+
+    <script src="CIS%20521%20Homework%203%20Informed%20Search%20_files/jquery.min.js"></script>
+    <script src="CIS%20521%20Homework%203%20Informed%20Search%20_files/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $("#homework").addClass("active");
+        
+      });
+    </script>
+  
+
+<div style="position: absolute; width: 0px; height: 0px; overflow: hidden; padding: 0px; border: 0px none; margin: 0px;"><div id="MathJax_Font_Test" style="position: absolute; visibility: hidden; top: 0px; left: 0px; width: auto; padding: 0px; border: 0px none; margin: 0px; white-space: nowrap; text-align: left; text-indent: 0px; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; font-size: 40px; font-weight: normal; font-style: italic; font-size-adjust: none; font-family: MathJax_Math, sans-serif;"></div></div></body></html>
