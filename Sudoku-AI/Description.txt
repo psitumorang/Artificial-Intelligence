@@ -1,0 +1,2 @@
+Title: Sudoku AI
+Description: Implementing AC-3 constraint satisfaction algorithm to create an efficient sudoku solver for all difficulty levels.

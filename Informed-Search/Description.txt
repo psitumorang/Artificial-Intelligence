@@ -1,0 +1,3 @@
+Title: Informed Search Puzzle Solver 
+Description: Implementing iterative deepening depth-first search (IDDFS) and A* search algorithms to solve for puzzles.
+Stack: Python, Jupyter

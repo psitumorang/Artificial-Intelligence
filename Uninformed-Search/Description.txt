@@ -1,0 +1,3 @@
+Title: Uninformed Search Puzzle Solver
+Description: Implementing breadth-first-search and depth-first-search algorithms to solve for puzzles.
+Stack: Python, Jupyter

@@ -1,0 +1,2 @@
+Title: Dominoes AI
+Description: Implementing adversarial search algorithm (alpha-beta pruning) to create an AI to play dominoes against.

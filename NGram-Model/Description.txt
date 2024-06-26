@@ -1,0 +1,2 @@
+Title: NGram Language Model
+Description: Using Markov model to create an NGram model that can be used to generate random text resembling a source document.

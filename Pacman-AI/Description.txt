@@ -1,0 +1,3 @@
+Title: Pacman AI
+Description: Implementing a Q-learning agent that uses epsilon-greedy action selection to play Pacman
+Concepts: Reinforcement Learning
