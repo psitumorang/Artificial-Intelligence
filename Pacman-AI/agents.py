@@ -1,8 +1,5 @@
 import random
 
-student_name = "Philip Situmorang"
-
-
 # 1. Q-Learning
 class QLearningAgent:
     """Implement Q Reinforcement Learning Agent using Q-table."""
