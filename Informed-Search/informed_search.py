@@ -6,7 +6,6 @@
 # Imports
 ############################################################
 
-# Include your imports here, if any are used.
 import copy
 import queue
 import numpy as np
